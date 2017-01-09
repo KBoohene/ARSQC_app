@@ -761,5 +761,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return totalSize;
     }
 
+    public void startClassifyService(String fileName){
+        Intent i = new Intent(this,ClassifierService.class);
+        i.putExtra("Firstname", fileName);
+        startService(i);
+    }
 
 }

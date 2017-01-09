@@ -1,11 +1,9 @@
 package com.ashesi.delalivorgbe.arsqc;
 
-/**
- * Created by Kwabena on 1/1/2017.
- */
-
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 import android.os.Environment;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
@@ -13,8 +11,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import static com.ashesi.delalivorgbe.arsqc.MainActivity.canWriteOnExternalStorage;
 
-//Must transform this into a service
-public class Classifier{
+/**
+ * Created by Kwabena on 1/9/2017.
+ */
+
+public class ClassifierService extends Service {
 
     double [][] exFeatures;
     PrintWriter printer;
@@ -22,10 +23,37 @@ public class Classifier{
     double class1,class2;
     FeatureExtractor extractor;
 
+    @Override
+    public IBinder onBind(Intent intent) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public void onCreate() {
+        //Toast.makeText(this, "Service was Created. Not started", Toast.LENGTH_LONG).show();
+        System.out.println("Service was Created. Not started");
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        // Perform your long running operations here.
+        //Toast.makeText(this, "Service Started \n About to start uploads", Toast.LENGTH_LONG).show();
+        System.out.println("Service Started \n About to start uploads");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        //Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+        System.out.println("Service Destroyed");
+    }
+
+
+
     //Find a way to pass arguments to the this constructor if
     //its going to be a service
     // Must change this to putExtra() and getExtra() via intent
-    public Classifier(String fileToClassify){
+    public ClassifierService(String fileToClassify){
         filename = fileToClassify;
         extractor = new FeatureExtractor(fileToClassify);
     }
