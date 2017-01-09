@@ -763,7 +763,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void startClassifyService(String fileName){
         Intent i = new Intent(this,ClassifierService.class);
-        i.putExtra("Firstname", fileName);
+        i.putExtra("File", fileName);
         startService(i);
     }
 

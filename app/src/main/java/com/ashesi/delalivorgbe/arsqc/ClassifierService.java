@@ -36,10 +36,11 @@ public class ClassifierService extends Service {
 
     @Override
     public void onStart(Intent intent, int startId) {
-        // Perform your long running operations here.
+       
         //Toast.makeText(this, "Service Started \n About to start uploads", Toast.LENGTH_LONG).show();
         System.out.println("Service Started \n About to start uploads");
-
+        filename = intent.getStringExtra("File");
+        extractor = new FeatureExtractor(filename);
     }
 
     @Override
@@ -54,8 +55,7 @@ public class ClassifierService extends Service {
     //its going to be a service
     // Must change this to putExtra() and getExtra() via intent
     public ClassifierService(String fileToClassify){
-        filename = fileToClassify;
-        extractor = new FeatureExtractor(fileToClassify);
+
     }
 
     // Good (1) vs Bad/Fair (0)
