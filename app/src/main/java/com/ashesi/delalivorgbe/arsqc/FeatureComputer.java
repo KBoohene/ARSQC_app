@@ -33,8 +33,6 @@ public class FeatureComputer{
     }
 
 
-
-
   /*
    * Method to create timed window of 10secs
    * Sampling rate of accelerometer is 4Hz

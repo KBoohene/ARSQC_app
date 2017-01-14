@@ -1,6 +1,8 @@
 package com.ashesi.delalivorgbe.arsqc;
 
 import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,12 +13,12 @@ import java.io.FileReader;
 
 
 public class FeatureExtractor{
-    BufferedReader br;
-    String currentLine;
-    int numWindows = 95;
-    String fileName="";
-    DataCrawler crawler = new DataCrawler();
-    DataPoints testDataPoints = new DataPoints();
+    private BufferedReader br;
+    private String currentLine;
+    private int numWindows;
+    private String fileName="";
+    private DataCrawler crawler = new DataCrawler();
+    private DataPoints testDataPoints = new DataPoints();
 
     public FeatureExtractor(String name){
         fileName=name;
@@ -24,20 +26,20 @@ public class FeatureExtractor{
 
     // Find method to find file location
 
-        File sdcard= Environment.getExternalStorageDirectory();
-        String  testDataInputFile = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData")+fileName;
-
+    File sdcard= Environment.getExternalStorageDirectory();
+    File directory = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
+    String testDataInputFile;
 
     FeatureComputer testDataComputer = new FeatureComputer(testDataPoints);
 
-
-
     //Computes the number of windows to be used
 //Check the division. Very important;
-    public void numWindows (){
+    public void getNumWindows (){
         int count= 0;
         int requiredLines=0;
         try {
+
+            testDataInputFile = new File(directory,fileName)+"";
             br = new BufferedReader(new FileReader(testDataInputFile));
 
             while ((currentLine = br.readLine()) != null) {
@@ -46,19 +48,23 @@ public class FeatureExtractor{
                     requiredLines=count;
                 }
             }
-
+            br.close();
         }catch (IOException e) {
-            e.printStackTrace();
+           e.printStackTrace();
+            //Log.d("NumWin",e.getMessage());
         }
         //Check integer division
         int numSecs = requiredLines/4;
         numWindows=numSecs/10;
+        String win = Integer.toString(numWindows);
+        Log.d("NumWin",win);
     }
 
 
 //Extracts data into multidensional array
 
     public double [][] extract (){
+        getNumWindows();
         crawler.read(testDataPoints,testDataInputFile);
         testDataComputer.computeLong();
 

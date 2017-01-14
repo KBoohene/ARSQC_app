@@ -11,6 +11,7 @@ package com.ashesi.delalivorgbe.arsqc;
 
 import com.ashesi.delalivorgbe.arsqc.DataPoints;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
@@ -38,6 +39,7 @@ public class DataCrawler{
     public void read(DataPoints points, String file){
         try {
             br = new BufferedReader(new FileReader(file));
+
             while ((currentLine = br.readLine()) != null) {
 
                 String[] splits = currentLine.split(" ");
@@ -59,7 +61,7 @@ public class DataCrawler{
          * *******************************
          */
 
-                points.addLog(parseDbl(splits[2]), parseDbl(splits[4]), parseDbl(splits[3]), parseDbl(splits[8]), parseDbl(splits[9]));
+                points.addLog(parseDbl(splits[2]), parseDbl(splits[3]), parseDbl(splits[4]), parseDbl(splits[10]), parseDbl(splits[11]));
             }
 
         } catch (IOException e) {

@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Environment;
+import android.widget.Toast;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
@@ -17,11 +19,11 @@ import static com.ashesi.delalivorgbe.arsqc.MainActivity.canWriteOnExternalStora
 
 public class ClassifierService extends Service {
 
-    double [][] exFeatures;
-    PrintWriter printer;
-    String roadGrade, filename;
-    double class1,class2;
-    FeatureExtractor extractor;
+    private double [][] exFeatures;
+    private PrintWriter printer;
+    private String roadGrade, filename;
+    private double class1,class2;
+    private FeatureExtractor extractor;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -30,17 +32,17 @@ public class ClassifierService extends Service {
 
     @Override
     public void onCreate() {
-        //Toast.makeText(this, "Service was Created. Not started", Toast.LENGTH_LONG).show();
-        System.out.println("Service was Created. Not started");
+        //Toast.makeText(this, "Service was Created. Not started", Toast.LENGTH_SHORT).show();
+        //System.out.println("Service was Created. Not started");
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-       
-        //Toast.makeText(this, "Service Started \n About to start uploads", Toast.LENGTH_LONG).show();
-        System.out.println("Service Started \n About to start uploads");
+    public int onStartCommand(Intent intent,int flags, int startId) {
+        //Toast.makeText(this, "Service Started \n About to start Classification", Toast.LENGTH_SHORT).show();
         filename = intent.getStringExtra("File");
         extractor = new FeatureExtractor(filename);
+        runClassification();
+        return START_STICKY;
     }
 
     @Override
@@ -49,14 +51,6 @@ public class ClassifierService extends Service {
         System.out.println("Service Destroyed");
     }
 
-
-
-    //Find a way to pass arguments to the this constructor if
-    //its going to be a service
-    // Must change this to putExtra() and getExtra() via intent
-    public ClassifierService(String fileToClassify){
-
-    }
 
     // Good (1) vs Bad/Fair (0)
     public double classify1(double val1, double z_mean, double z_var,
@@ -156,5 +150,7 @@ public class ClassifierService extends Service {
                 e.printStackTrace();
             }
         }
+        Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
+        stopSelf();
     }
 }

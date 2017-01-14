@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final int MEDIA_TYPE_IMAGE = 1;
     private static final int MEDIA_TYPE_VIDEO = 2;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-
+    private static final int MAX_LINES =200;
     private Uri fileUri;
 
     private ImageView iv;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SimpleDateFormat sdf;
     private String sdfString;
     private String timeStamp;
+    private String currentDateTimeString;
     private String filename;
     private String fileExtension;
     private boolean locationLocked;
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String phoneModel;
     private String phoneName;
     private int sensorDelay;
+    private int line_number;
 
     private String vehicleAge;
     private String vehicleClass;
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sdfString = "dd-MM-yy";
         sdf = new SimpleDateFormat(sdfString);
         timeStamp = sdf.format(c.getTime());
-        fileExtension = ".txt";
+        fileExtension = "txt";
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
@@ -217,8 +220,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         androidId = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
-
-        filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+sdf+fileExtension;
+        currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        currentDateTimeString = currentDateTimeString.replace(':','_');
+        filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
+                fileExtension;
 
 
         resetUploadButton();
@@ -409,6 +414,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     file.createNewFile();
                 }
 
+                //Have to edit this to contain the given time on
+                if(line_number>=MAX_LINES){
+                    line_number=0;
+                    //Toast.makeText(this, "Creating new file", Toast.LENGTH_SHORT).show();
+                    startClassifyService(filename);
+                    currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                    currentDateTimeString = currentDateTimeString.replace(':','_');
+                    filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
+                           fileExtension;
+                    file = new File(dir,filename);
+                    file.createNewFile();
+                }
+
                 FileOutputStream out = new FileOutputStream(file,true);
                 OutputStreamWriter osw = new OutputStreamWriter(out);
 
@@ -418,17 +436,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyy");
                 String formattedDate = df.format(c.getTime());
 
-                String line = formattedDate+"|"+ts +
-                        "|" + x.toString() + "|" + y.toString() + "|" + z.toString() +
-                        "|" + gravityX + "|" + gravityY + "|" + gravityZ +
-                        "|" + speed.toString() + "|" + accuracy.toString() +
-                        "|" + longitude.toString() + "|" + latitude.toString() + "|" + vehicleClass +
-                        "|" + vehicleAge + "|" + vehicleCondition + "\n";
+                String line = formattedDate+" "+ts +
+                        " " + x.toString() + " " + y.toString() + " " + z.toString() +
+                        " " + gravityX + " " + gravityY + " " + gravityZ +
+                        " " + speed.toString() + " " + accuracy.toString() +
+                        " " + longitude.toString() + " " + latitude.toString() + "\n";
 
                 osw.append(line);
                 osw.close();
                 out.close();
-
+                line_number++;
             }catch(Exception e){
                 System.err.println("File not found");
             }
@@ -734,9 +751,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     // Start the service
-    public void startService(){
-        startService(new Intent(this, UploadService.class));
-    }
+   // public void startService(){
+     //   startService(new Intent(this, UploadService.class));
+   // }
 
     // Stop the service
     public void stopService(View view) {
@@ -745,9 +762,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     //non-critical functions. utility testing
-    public void testButton(View v){
-        startService();
-    }
+   // public void testButton(View v){
+    //    startService();
+    //}
 
 
     public long getDirSize(){
@@ -767,4 +784,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startService(i);
     }
 
+    public long getFileSize(File file){
+        long sizeInBytes = file.length();
+        long sizeInKB = sizeInBytes/1024;
+        return sizeInKB;
+    }
 }
