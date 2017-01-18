@@ -3,7 +3,9 @@ package com.ashesi.delalivorgbe.arsqc;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,7 +20,7 @@ public class UploadService extends Service {
     private String sdfString;
     private String timeStamp;
     private String fileExtension;
-
+    private File [] filesToUpload;
 
     public UploadService() {
         c = Calendar.getInstance();
@@ -42,11 +44,12 @@ public class UploadService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
+    public int onStartCommand(Intent intent,int flags, int startId) {
         // Perform your long running operations here.
         //Toast.makeText(this, "Service Started \n About to start uploads", Toast.LENGTH_LONG).show();
         System.out.println("Service Started \n About to start uploads");
         queueUploads();
+        return START_NOT_STICKY;
     }
 
     @Override
@@ -85,13 +88,26 @@ public class UploadService extends Service {
 
     }
 
-    private File getFileAtIndex(int index){
+    /*private File getFileAtIndex(int index){
         return new File(getFilesDir() + "/" + fileList()[index]);
-    }
+    }*/
+
+    /*public int getNumberOfFilesInDirectory(){
+        return fileList().length;
+    }*/
 
     public int getNumberOfFilesInDirectory(){
-        return fileList().length;
+        File dir = new File(Environment.getExternalStorageDirectory()
+                + "/ARSQC/Classification");
+        filesToUpload = dir.listFiles();
+        int numberOfFiles=filesToUpload.length;
+        return numberOfFiles;
     }
+
+    private File getFileAtIndex(int index){
+        return  filesToUpload[index];
+    }
+
 
     public String getTodayTimestamp(){
         return timeStamp;
@@ -104,10 +120,10 @@ public class UploadService extends Service {
         for(int i=0; i<getNumberOfFilesInDirectory(); i++){
             System.out.println("Trying "+getFileAtIndex(i).getName());
             if(!(getFileTimestamp(getFileAtIndex(i).getName()).equals(getTodayTimestamp()))){
-                System.out.println("Not equal to today. Uploading");
+                Log.d("Upload Message","Not equal to today. Uploading");
                 postFile(getFileAtIndex(i));
             }else{
-                System.out.println("Equal to today. Not uploading");
+               Log.d("Upload Message","Equal to today. Not uploading");
                 postFile(getFileAtIndex(i));
             }
         }

@@ -10,7 +10,6 @@ package com.ashesi.delalivorgbe.arsqc;
  */
 
 import com.ashesi.delalivorgbe.arsqc.DataPoints;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
@@ -43,7 +42,7 @@ public class DataCrawler{
             while ((currentLine = br.readLine()) != null) {
 
                 String[] splits = currentLine.split(" ");
-
+                //Have to change these headings
         /*
          * Data stored in splits array
          * index - data

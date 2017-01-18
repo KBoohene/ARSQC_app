@@ -751,9 +751,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     // Start the service
-   // public void startService(){
-     //   startService(new Intent(this, UploadService.class));
-   // }
+    public void startUploadService(){
+        startService(new Intent(this, UploadService.class));
+    }
 
     // Stop the service
     public void stopService(View view) {
@@ -762,9 +762,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     //non-critical functions. utility testing
-   // public void testButton(View v){
-    //    startService();
-    //}
+    public void testButton(View v){
+        startUploadService();
+    }
 
 
     public long getDirSize(){
