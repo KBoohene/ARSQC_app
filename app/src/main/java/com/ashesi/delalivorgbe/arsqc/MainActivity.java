@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sdfString = "dd-MM-yy";
         sdf = new SimpleDateFormat(sdfString);
         timeStamp = sdf.format(c.getTime());
-        fileExtension = "txt";
+        fileExtension = ".txt";
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public static boolean canWriteOnExternalStorage(){
         String state = Environment.getExternalStorageState();
         if(Environment.MEDIA_MOUNTED.equals(state)){
-            Log.v("sTag", "Yes, can write to external storage.");
+           // Log.v("sTag", "Yes, can write to external storage.");
             return true;
         }
         return false;
@@ -418,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if(line_number>=MAX_LINES){
                     line_number=0;
                     //Toast.makeText(this, "Creating new file", Toast.LENGTH_SHORT).show();
-                    startClassifyService(filename);
+                    startClassification(filename);
                     currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     currentDateTimeString = currentDateTimeString.replace(':','_');
                     filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Toast.makeText(getBaseContext(), "Getting GPS lock. Might take a while", Toast.LENGTH_LONG).show();
             }
 
-            uploadFileButton.setVisibility(View.GONE);
+            //uploadFileButton.setVisibility(View.GONE);
 
 
         } else {
@@ -717,7 +717,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public int getNumberOfFilesInDirectory(){
-        return fileList().length;
+        //return fileList().length;
+
+        return getFilesInDir().length;
     }
 
     public File getFileAtIndex(int index){
@@ -731,7 +733,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void resetUploadButton(){
 
-        uploadFileButton.setText(String.valueOf(getDirSize()/1024)+"KB to upload");
+        //uploadFileButton.setText(String.valueOf(getDirSize()/1024)+"KB to upload");
+
+        //uploadFileButton.setText(String.valueOf(getDirSize())+"KB to upload");
 
         if(fileDirectoryIsEmpty()){
             uploadFileButton.setVisibility(View.GONE);
@@ -769,24 +773,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public long getDirSize(){
 
-        long totalSize = 0;
+        long totalSize=0;
+
+        for(int i=0; i<getNumberOfFilesInDirectory(); i++){
+            totalSize += getFileSize(getFilesInDir()[i]);
+        }
+
+        /*long totalSize = 0;
 
         for(int i=0; i<getNumberOfFilesInDirectory(); i++){
             totalSize += getFileAtIndex(i).length();
         }
-
+        */
         return totalSize;
     }
 
-    public void startClassifyService(String fileName){
-        Intent i = new Intent(this,ClassifierService.class);
-        i.putExtra("File", fileName);
-        startService(i);
+    public void startClassification(String fileName){
+        ClassifierService classify = new ClassifierService(fileName);
+        new Thread(classify).start();
     }
 
     public long getFileSize(File file){
         long sizeInBytes = file.length();
         long sizeInKB = sizeInBytes/1024;
         return sizeInKB;
+    }
+
+    public File[] getFilesInDir(){
+        File dir = new File(Environment.getExternalStorageDirectory()
+                + "/ARSQC/Classification");
+        File [] filesToUpload = dir.listFiles();
+
+        return filesToUpload;
     }
 }

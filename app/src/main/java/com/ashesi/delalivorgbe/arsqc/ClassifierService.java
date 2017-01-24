@@ -17,7 +17,7 @@ import static com.ashesi.delalivorgbe.arsqc.MainActivity.canWriteOnExternalStora
  * Created by Kwabena on 1/9/2017.
  */
 
-public class ClassifierService extends Service {
+public class ClassifierService implements Runnable {
 
     private double [][] exFeatures;
     private PrintWriter printer;
@@ -25,31 +25,16 @@ public class ClassifierService extends Service {
     private double class1,class2;
     private FeatureExtractor extractor;
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+    public ClassifierService(String name){
+        filename=name;
 
-    @Override
-    public void onCreate() {
-        //Toast.makeText(this, "Service was Created. Not started", Toast.LENGTH_SHORT).show();
-        //System.out.println("Service was Created. Not started");
     }
-
-    @Override
-    public int onStartCommand(Intent intent,int flags, int startId) {
-        //Toast.makeText(this, "Service Started \n About to start Classification", Toast.LENGTH_SHORT).show();
-        filename = intent.getStringExtra("File");
+    public void run() {
+        // compute primes larger than minPrime
         extractor = new FeatureExtractor(filename);
         runClassification();
-        return START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        //Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-        System.out.println("Service Destroyed");
-    }
 
 
     // Good (1) vs Bad/Fair (0)
@@ -150,7 +135,6 @@ public class ClassifierService extends Service {
                 e.printStackTrace();
             }
         }
-        Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
-        stopSelf();
+
     }
 }

@@ -62,7 +62,8 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
         //.url("http://54.69.212.93/uploadarsqc.php")
 
         Request request = new Request.Builder()
-                .url("http://cs.ashesi.edu.gh/arsqc/ayorkor.php")
+                //.url("http://cs.ashesi.edu.gh/arsqc/ayorkor.php")
+                .url("http://172.20.16.30/ARSQC_server/file_download.php")
                 .post(requestBody)
                 .build();
 
@@ -74,7 +75,7 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
             String responseBody = response.body().string();
             System.out.println(responseBody);
 
-            if(responseBody.equals("success")){
+            if(responseBody.equals("Successful")){
 
                 System.out.println("successfully uploaded " + fileToUpload.getName());
 
@@ -85,6 +86,7 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
                     System.out.println("Delete failed "+ fileToUpload.getName());
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

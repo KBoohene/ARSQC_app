@@ -55,7 +55,7 @@ public class FeatureExtractor{
         int numSecs = requiredLines/4;
         numWindows=numSecs/10;
         String win = Integer.toString(numWindows);
-        Log.d("NumWin",win);
+       // Log.d("NumWin",win);
     }
 
 
