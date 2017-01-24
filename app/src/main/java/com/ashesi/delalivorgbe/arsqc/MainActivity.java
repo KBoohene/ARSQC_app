@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final int MEDIA_TYPE_IMAGE = 1;
     private static final int MEDIA_TYPE_VIDEO = 2;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    private static final int MAX_LINES =200;
+    private static final int MAX_LINES =1200;
     private Uri fileUri;
 
     private ImageView iv;
@@ -116,7 +116,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String vehicleAge;
     private String vehicleClass;
     private String vehicleCondition;
-
+    private Boolean checkExternal;
+    private File sdcard;
+    private File dir;
     static final int READ_BLOCK_SIZE = 100;
 
     @Override
@@ -224,7 +226,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         currentDateTimeString = currentDateTimeString.replace(':','_');
         filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
                 fileExtension;
-
+        checkExternal = canWriteOnExternalStorage();
+        sdcard=Environment.getExternalStorageDirectory();
+        dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
 
         resetUploadButton();
     }
@@ -397,11 +401,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void writeToFile(Float x, Float y, Float z, Float speed, Double longitude, Double latitude,
                             String vehicleClass, String vehicleAge, String vehicleCondition){
 
-        Boolean checkExternal = canWriteOnExternalStorage();
-
         if(checkExternal==true){
-            File sdcard=Environment.getExternalStorageDirectory();
-            File dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
+
 
             try {
                 if(!dir.exists()){
@@ -450,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 System.err.println("File not found");
             }
         }
-        else{
+       /* else{
             try {
                 FileOutputStream fileout=openFileOutput(filename, Context.MODE_APPEND);
                 OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
@@ -478,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 

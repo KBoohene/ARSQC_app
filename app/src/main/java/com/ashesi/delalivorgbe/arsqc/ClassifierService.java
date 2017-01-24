@@ -135,6 +135,6 @@ public class ClassifierService implements Runnable {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("Done classifying");
     }
 }
