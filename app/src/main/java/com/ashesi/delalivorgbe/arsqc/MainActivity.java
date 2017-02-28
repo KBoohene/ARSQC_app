@@ -420,6 +420,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     line_number=0;
                     //Toast.makeText(this, "Creating new file", Toast.LENGTH_SHORT).show();
                     startClassification(filename);
+                    Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
                     currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     currentDateTimeString = currentDateTimeString.replace(':','_');
                     filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+

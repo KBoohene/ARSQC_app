@@ -86,6 +86,9 @@ public class ClassifierService implements Runnable {
         else if((classify1<0.5)&&(classify2<0.5)){
             grade="fair";
         }
+        else if((classify1>0.5)&&(classify2>0.5)){
+            grade="bad";
+        }
         return grade;
     }
 
@@ -125,6 +128,8 @@ public class ClassifierService implements Runnable {
 
                     class2 = sigmoid(classify2(1, exFeatures[i][0], exFeatures[i][1],
                             exFeatures[i][2], exFeatures[i][3], exFeatures[i][4]));
+                    System.out.println("Class1: "+class1);
+                    System.out.println("Class2: "+class2);
 
                     roadGrade = grade(class1, class2);
                     printer.println(roadGrade + "," + exFeatures[i][5] + "," + exFeatures[i][6]);
@@ -135,6 +140,6 @@ public class ClassifierService implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println("Done classifying");
+
     }
 }

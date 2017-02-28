@@ -100,11 +100,13 @@
 
 
                             <TextView
+                                android:visibility="gone"
                                 android:text="Car Type"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
                             <Spinner
+                                android:visibility="gone"
                                 android:id="@+id/vehicle_type"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content">
@@ -120,11 +122,13 @@
 
 
                             <TextView
+                                android:visibility="gone"
                                 android:text="Car Condition"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
                             <Spinner
+                                android:visibility="gone"
                                 android:id="@+id/vehicle_condition"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content">
@@ -140,11 +144,13 @@
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:visibility="gone"
                                 android:text="Car Age"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
                             <Spinner
+                                android:visibility="gone"
                                 android:id="@+id/vehicle_age"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content">
@@ -169,6 +175,7 @@
                         android:checked="false" />
 
                     <Button
+                        android:visibility="gone"
                         android:id="@+id/good_road_button"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -180,6 +187,7 @@
                         android:onClick="goodRoadClicked"/>
 
                     <Button
+                        android:visibility="gone"
                         android:id="@+id/fair_road_button"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -191,6 +199,7 @@
                         android:onClick="fairRoadClicked"/>
 
                     <Button
+                        android:visibility="gone"
                         android:id="@+id/bad_road_button"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
