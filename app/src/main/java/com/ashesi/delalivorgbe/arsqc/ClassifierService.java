@@ -14,7 +14,8 @@ import java.io.IOException;
 import static com.ashesi.delalivorgbe.arsqc.MainActivity.canWriteOnExternalStorage;
 
 /**
- * Created by Kwabena on 1/9/2017.
+ * @author Kwabena Boohene on 1/9/2017.
+ * Performs road quality classification
  */
 
 public class ClassifierService implements Runnable {
@@ -29,25 +30,34 @@ public class ClassifierService implements Runnable {
         filename=name;
 
     }
+
+    //Runs as soon as the thread starts
     public void run() {
-        // compute primes larger than minPrime
+
         extractor = new FeatureExtractor(filename);
         runClassification();
     }
 
 
 
-    // Good (1) vs Bad/Fair (0)
+    // Good vs Bad/Fair theta values
     public double classify1(double val1, double z_mean, double z_var,
                             double z_D, double z_peak, double z_trough){
 
         double theta1, theta2, theta3, theta4, theta5, theta6;
-        theta1 = 38.388669;
+      /*  theta1 = 38.388669;
         theta2= -1.658378;
         theta3= 4.517424;
         theta4 = -23.416034;
         theta5 = 0.305482;
-        theta6 = -1.711021;
+        theta6 = -1.711021;*/
+
+        theta1=0.100776;
+        theta2=0.969801;
+        theta3=0.035839;
+        theta4=0.046582;
+        theta5=1.080070;
+        theta6=0.857358;
 
         double result = (val1*theta1)+(z_mean*theta2)+(z_var*theta3)
                 +(z_D*theta4)+(z_peak*theta5)+(z_trough*theta6);
@@ -56,17 +66,25 @@ public class ClassifierService implements Runnable {
     }
 
 
-    //Bad (1) vs Good/Fair (0)
+    //Bad vs Good/Fair theta values
     public double classify2(double val1, double z_mean, double z_var,
                             double z_D, double z_peak, double z_trough){
 
         double theta1, theta2, theta3, theta4, theta5, theta6;
-        theta1 = -0.641961;
+        /*theta1 = -0.641961;
         theta2= -1.009224;
         theta3= -3.973086;
         theta4 = 17.536464;
         theta5 = -0.565364;
-        theta6 = 0.681880;
+        theta6 = 0.681880;*/
+
+        theta1=0.110556;
+        theta2=1.062288;
+        theta3=0.030411;
+        theta4=0.051557;
+        theta5=1.186137;
+        theta6=0.935443;
+
         double result = (val1*theta1)+(z_mean*theta2)+(z_var*theta3)
                 +(z_D*theta4)+(z_peak*theta5)+(z_trough*theta6);
 
@@ -76,18 +94,15 @@ public class ClassifierService implements Runnable {
 
     //Determines the grade of road
     public String grade(double classify1, double classify2){
-        String grade="";
-        if((classify1>=0.5)&&(classify2<0.5)){
+        String grade=" ";
+        if((classify1<0.8)&&(classify2<0.8)){
             grade="Good";
         }
-        else if((classify1<0.5)&&(classify2>=0.5)){
+        else if((classify1>=0.8)&&(classify2>=0.8)){
             grade="Bad";
         }
-        else if((classify1<0.5)&&(classify2<0.5)){
-            grade="fair";
-        }
-        else if((classify1>0.5)&&(classify2>0.5)){
-            grade="bad";
+        else{
+            grade="Fair";
         }
         return grade;
     }
@@ -99,6 +114,8 @@ public class ClassifierService implements Runnable {
         return prob;
     }
 
+
+    //Writes grade along with required parameters to a text file
     public void runClassification(){
         exFeatures = extractor.extract();
         Boolean checkExternal = canWriteOnExternalStorage();
@@ -128,11 +145,12 @@ public class ClassifierService implements Runnable {
 
                     class2 = sigmoid(classify2(1, exFeatures[i][0], exFeatures[i][1],
                             exFeatures[i][2], exFeatures[i][3], exFeatures[i][4]));
-                    System.out.println("Class1: "+class1);
-                    System.out.println("Class2: "+class2);
+                   // System.out.println("Class1: "+class1);
+                   // System.out.println("Class2: "+class2);
 
                     roadGrade = grade(class1, class2);
-                    printer.println(roadGrade + "," + exFeatures[i][5] + "," + exFeatures[i][6]);
+                    printer.println(roadGrade + "," + exFeatures[i][5] + "," + exFeatures[i][6]+
+                            ",Class1:"+class1+",Class2:"+class2);
                 }
 
                 printer.close();

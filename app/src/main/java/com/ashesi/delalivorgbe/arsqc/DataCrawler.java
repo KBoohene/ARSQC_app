@@ -1,8 +1,8 @@
 package com.ashesi.delalivorgbe.arsqc;
-/*
- * @author delalivorgbe
- * modified by Kwabena Boohene
- * March 2014
+/**
+ * @author delalivorgbe March 2014
+ * modified by Kwabena Boohene January 2017
+ *
  *
  * This class traverses a text file containing data collected from the field.
  * It stores each datapoint in an array index for further manipulation

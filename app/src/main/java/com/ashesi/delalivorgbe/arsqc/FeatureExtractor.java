@@ -1,5 +1,10 @@
 package com.ashesi.delalivorgbe.arsqc;
 
+/**
+* @author: Kwabena Boohene
+* February 2017
+* This class extracts the features required for classification
+* */
 import android.os.Environment;
 import android.util.Log;
 import java.io.BufferedReader;
@@ -22,8 +27,7 @@ public class FeatureExtractor{
         fileName=name;
     }
 
-    // Find method to find file location
-
+    // Gets file location to classify
     File sdcard= Environment.getExternalStorageDirectory();
     File directory = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
     String testDataInputFile;
@@ -31,7 +35,6 @@ public class FeatureExtractor{
     FeatureComputer testDataComputer = new FeatureComputer(testDataPoints);
 
     //Computes the number of windows to be used
-//Check the division. Very important;
     public void getNumWindows (){
         int count= 0;
         int requiredLines=0;
@@ -54,7 +57,7 @@ public class FeatureExtractor{
         //Check integer division
         int numSecs = requiredLines/4;
         numWindows=numSecs/10;
-        String win = Integer.toString(numWindows);
+       // String win = Integer.toString(numWindows);
        // Log.d("NumWin",win);
     }
 

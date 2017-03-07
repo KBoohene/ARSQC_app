@@ -13,6 +13,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * @author Delali Vorgbe on November 2015
+ * modified by Kwabena Boohene January 2017
+ */
 public class UploadService extends Service {
 
     private Calendar c;
@@ -64,10 +68,13 @@ public class UploadService extends Service {
                 fileName.length()-fileExtension.length());
     }
 
+    //Checks if the directory is empty
     public boolean fileDirectoryIsEmpty(){
         return(fileList().length==0);
     }
 
+
+    //Posts file to the required server
     public void postFile(File fileToUpload){
 
         //File fileToUpload = getFileAtIndex(fileList().length-1);
@@ -96,6 +103,7 @@ public class UploadService extends Service {
         return fileList().length;
     }*/
 
+    //Lists the number of files in the directory
     public int getNumberOfFilesInDirectory(){
         File dir = new File(Environment.getExternalStorageDirectory()
                 + "/ARSQC/Classification");
@@ -104,15 +112,16 @@ public class UploadService extends Service {
         return numberOfFiles;
     }
 
+    //Returns a specific file at a given index
     private File getFileAtIndex(int index){
         return  filesToUpload[index];
     }
-
 
     public String getTodayTimestamp(){
         return timeStamp;
     }
 
+    //Queues the files to be uploaded
     private boolean queueUploads(){
 
         System.out.println("Queue Started");
