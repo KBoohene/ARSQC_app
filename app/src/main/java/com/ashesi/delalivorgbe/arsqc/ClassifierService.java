@@ -145,8 +145,6 @@ public class ClassifierService implements Runnable {
 
                     class2 = sigmoid(classify2(1, exFeatures[i][0], exFeatures[i][1],
                             exFeatures[i][2], exFeatures[i][3], exFeatures[i][4]));
-                   // System.out.println("Class1: "+class1);
-                   // System.out.println("Class2: "+class2);
 
                     roadGrade = grade(class1, class2);
                     printer.println(roadGrade + "," + exFeatures[i][5] + "," + exFeatures[i][6]+

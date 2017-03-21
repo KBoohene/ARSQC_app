@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String vehicleClass;
     private String vehicleCondition;
     private Boolean checkExternal;
+    private TextView noticeView;
     private File sdcard;
     private File dir;
     static final int READ_BLOCK_SIZE = 100;
@@ -143,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         txtView = (TextView) findViewById(R.id.testX);
         toggle = (ToggleButton) findViewById(R.id.start_stop_toggle);
+        noticeView=(TextView) findViewById(R.id.noticeView);
+
         sampleSlowRadioButton = (RadioButton) findViewById(R.id.sampleSlowRadioButton);
         sampleMidRadioButton = (RadioButton) findViewById(R.id.sampleMidRadioButton);
         sampleFastRadioButton = (RadioButton) findViewById(R.id.sampleFastRadioButton);
@@ -284,6 +287,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Float z = sensorEvent.values[2];
 
                 writeToFile(x, y, z, speed, longitude, latitude, vehicleClass, vehicleAge, vehicleCondition);
+                noticeView.setVisibility(View.VISIBLE);
+                noticeView.setText("Recording");
 
                 txtView.setText("x-linear: "+x.toString() + "\n y-linear: " + y.toString() +
                         "\n z-linear: " + z.toString()+ "\n speed: " + speed.toString()+
@@ -413,14 +418,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 if(!file.exists()){
                     file.createNewFile();
+                    writeStart(file);
                 }
 
-                //Have to edit this to contain the given time on
+
+
                 if(line_number>=MAX_LINES){
                     line_number=0;
                     //Toast.makeText(this, "Creating new file", Toast.LENGTH_SHORT).show();
-                    startClassification(filename);
-                    Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
+                    //startClassification(filename);
+                    //Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
                     currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     currentDateTimeString = currentDateTimeString.replace(':','_');
                     filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
@@ -507,6 +514,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         } else {
+            noticeView.setText("Paused Recording");
             senSensorManager.unregisterListener(this);
             sampleMidRadioButton.setEnabled(true);
             sampleFastRadioButton.setEnabled(true);
@@ -517,7 +525,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    public void endButtonClicked(View view){
+        noticeView.setText("Ended Recording");
+        toggle.setChecked(false);
+        senSensorManager.unregisterListener(this);
 
+        try {
+
+            File sdcard=Environment.getExternalStorageDirectory();
+            File dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
+
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            File file = new File(dir, filename);
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileOutputStream out = new FileOutputStream(file, true);
+            OutputStreamWriter osw = new OutputStreamWriter(out);
+            String line ="\n==================End===================\n\n";
+            osw.append(line);
+            osw.close();
+            out.close();
+
+            Toast.makeText(getBaseContext(), "Recording Ended",
+                    Toast.LENGTH_SHORT).show();
+        }catch(Exception e){
+            System.err.println("File not found");
+        }
+    }
 
     public void onSampleRateRadioButtonClicked(View view){
         boolean checked = ((RadioButton) view).isChecked();
@@ -552,6 +592,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    public void writeStart(File file){
+        try{
+            FileOutputStream out = new FileOutputStream(file,true);
+            OutputStreamWriter osw = new OutputStreamWriter(out);
+
+            String line ="===================Start=========================\n\n";
+
+            osw.append(line);
+            osw.close();
+            out.close();
+            line_number++;
+        }catch(Exception e){
+            System.err.println("File not found");
+        }
+    }
 
     public void writeClassToFile(String classification){
 

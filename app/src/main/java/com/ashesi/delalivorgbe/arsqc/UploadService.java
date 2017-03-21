@@ -77,11 +77,8 @@ public class UploadService extends Service {
     //Posts file to the required server
     public void postFile(File fileToUpload){
 
-        //File fileToUpload = getFileAtIndex(fileList().length-1);
 
         System.out.println("About to upload " + fileToUpload.getName());
-
-        //Toast.makeText(getBaseContext(), fileToUpload.toString(), Toast.LENGTH_SHORT).show();
 
         OkHTTPAsync fileUploadHandler = new OkHTTPAsync(fileToUpload);
         System.out.println(("File Size: "+fileToUpload.length()/1024));
@@ -124,21 +121,27 @@ public class UploadService extends Service {
     //Queues the files to be uploaded
     private boolean queueUploads(){
 
-        System.out.println("Queue Started");
+        Toast.makeText(getBaseContext(), "Number of files are: "+getNumberOfFilesInDirectory(),
+                Toast.LENGTH_SHORT).show();
+        boolean completedUploads=false;
 
         for(int i=0; i<getNumberOfFilesInDirectory(); i++){
             System.out.println("Trying "+getFileAtIndex(i).getName());
             if(!(getFileTimestamp(getFileAtIndex(i).getName()).equals(getTodayTimestamp()))){
                 Log.d("Upload Message","Not equal to today. Uploading");
                 postFile(getFileAtIndex(i));
+                completedUploads=true;
             }else{
                Log.d("Upload Message","Equal to today. Not uploading");
                 postFile(getFileAtIndex(i));
+                completedUploads=false;
             }
         }
 
-        if(getNumberOfFilesInDirectory()==0){
-            System.out.println("Directory is empty");
+        if(completedUploads==true){
+            Toast.makeText(getBaseContext(), "Finished file uploads",
+                    Toast.LENGTH_SHORT).show();
+            System.out.println("Finished file uploads");
             stopSelf();
         }
 

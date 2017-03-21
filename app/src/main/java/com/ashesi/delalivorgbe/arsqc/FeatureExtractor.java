@@ -81,7 +81,13 @@ public class FeatureExtractor{
             features[i][6]=testDataComputer.computeLat().get(i);
 
         }
+
+        //Deletes raw file data
+        File rawfile = new File(directory,fileName);
+        rawfile.delete();
+
         return features;
+
     }
 
 
