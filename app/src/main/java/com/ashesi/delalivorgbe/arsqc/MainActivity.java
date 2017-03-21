@@ -426,8 +426,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if(line_number>=MAX_LINES){
                     line_number=0;
                     //Toast.makeText(this, "Creating new file", Toast.LENGTH_SHORT).show();
-                    //startClassification(filename);
-                    //Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
+                    startClassification(filename);
+                    Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
                     currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     currentDateTimeString = currentDateTimeString.replace(':','_');
                     filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
@@ -445,11 +445,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyy");
                 String formattedDate = df.format(c.getTime());
 
-                String line = formattedDate+" "+ts +
-                        " " + x.toString() + " " + y.toString() + " " + z.toString() +
-                        " " + gravityX + " " + gravityY + " " + gravityZ +
-                        " " + speed.toString() + " " + accuracy.toString() +
-                        " " + longitude.toString() + " " + latitude.toString() + "\n";
+                String line = formattedDate+","+ts +
+                        "," + x.toString() + "," + y.toString() + "," + z.toString() +
+                        "," + gravityX + "," + gravityY + "," + gravityZ +
+                        "," + speed.toString() + "," + accuracy.toString() +
+                        "," + longitude.toString() + "," + latitude.toString() + "\n";
 
                 osw.append(line);
                 osw.close();
@@ -547,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             FileOutputStream out = new FileOutputStream(file, true);
             OutputStreamWriter osw = new OutputStreamWriter(out);
-            String line ="\n==================End===================\n\n";
+            String line ="\n==================End===================\n";
             osw.append(line);
             osw.close();
             out.close();
@@ -597,7 +597,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             FileOutputStream out = new FileOutputStream(file,true);
             OutputStreamWriter osw = new OutputStreamWriter(out);
 
-            String line ="===================Start=========================\n\n";
+            String line ="===================Start=========================\n";
 
             osw.append(line);
             osw.close();

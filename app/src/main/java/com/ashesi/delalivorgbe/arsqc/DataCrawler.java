@@ -38,34 +38,38 @@ public class DataCrawler{
     public void read(DataPoints points, String file){
         try {
             br = new BufferedReader(new FileReader(file));
-
+            boolean checkEquals;
             while ((currentLine = br.readLine()) != null) {
+                    checkEquals =currentLine.contains("=");
 
-                String[] splits = currentLine.split(" ");
-                //Have to change these headings
-        /*
-         * Data stored in splits array
-         * index - data
-         * *******************************
-         * 0 - timestamp
-         * 1 - timestamp
-         * 2 - x-axis acceleration
-         * 3 - z-axis acceleration
-         * 4 - y-axis acceleration
-         * 5 - x-axis linear acceleration
-         * 6 - z-axis linear acceleration
-         * 7 - y-axis linear acceleration
-         * 8 - latitude
-         * 9 - longitude
-         * *******************************
-         */
+                if (checkEquals==false) {
 
-                points.addLog(parseDbl(splits[2]), parseDbl(splits[3]), parseDbl(splits[4]), parseDbl(splits[10]), parseDbl(splits[11]));
+                    String[] splits = currentLine.split(",");
+
+                    //Have to change these headings
+                    /*
+                     * Data stored in splits array
+                     * index - data
+                     * *******************************
+                     * 0 - timestamp
+                     * 1 - timestamp
+                     * 2 - x-axis acceleration
+                     * 3 - z-axis acceleration
+                     * 4 - y-axis acceleration
+                     * 5 - x-axis linear acceleration
+                     * 6 - z-axis linear acceleration
+                     * 7 - y-axis linear acceleration
+                     * 8 - latitude
+                     * 9 - longitude
+                     * *******************************
+                     */
+
+                    points.addLog(parseDbl(splits[2]), parseDbl(splits[3]), parseDbl(splits[4]), parseDbl(splits[10]), parseDbl(splits[11]));
+                }
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
 
         finally {
             try {

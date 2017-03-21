@@ -22,6 +22,7 @@ public class FeatureExtractor{
     private String fileName="";
     private DataCrawler crawler = new DataCrawler();
     private DataPoints testDataPoints = new DataPoints();
+    private boolean start=false, end=false;
 
     public FeatureExtractor(String name){
         fileName=name;
@@ -44,17 +45,32 @@ public class FeatureExtractor{
             br = new BufferedReader(new FileReader(testDataInputFile));
 
             while ((currentLine = br.readLine()) != null) {
-                count++;
+
+                if((currentLine.contains("Start")!=true)||(currentLine.contains("End")!=true))
+                {
+                    count++;
+                }
+
+                if(currentLine.contains("Start")==true){
+                    start=true;
+                    System.out.println("Start exists");
+                }
+                else if(currentLine.contains("End")==true){
+                    System.out.println("End exists");
+                    end=true;
+                }
+
+                }
                 if(count%4==0){
                     requiredLines=count;
                 }
-            }
             br.close();
         }catch (IOException e) {
            e.printStackTrace();
             //Log.d("NumWin",e.getMessage());
         }
         //Check integer division
+        System.out.println("Number of lines: "+requiredLines);
         int numSecs = requiredLines/4;
         numWindows=numSecs/10;
        // String win = Integer.toString(numWindows);
@@ -69,7 +85,7 @@ public class FeatureExtractor{
         crawler.read(testDataPoints,testDataInputFile);
         testDataComputer.computeLong();
 
-        double [][] features = new double[numWindows][7];
+        double [][] features = new double[numWindows][8];
         for(int i=0;i<numWindows;i++){
             testDataComputer.window();
             features[i][0]=testDataComputer.computeZMean();
@@ -80,6 +96,20 @@ public class FeatureExtractor{
             features[i][5]=testDataComputer.computeLong().get(i);
             features[i][6]=testDataComputer.computeLat().get(i);
 
+
+            if(i==0){
+                if(start==true){
+                    System.out.println("Start Exists");
+                    features[i][7]=1;
+                }
+                else{features[i][7]=2;}
+            }
+            else if(end==true){
+                features[i][7]=3;
+                System.out.println("End exists");
+            }else{
+                features[i][7]=2;
+            }
         }
 
         //Deletes raw file data

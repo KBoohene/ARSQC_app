@@ -121,7 +121,7 @@ public class UploadService extends Service {
     //Queues the files to be uploaded
     private boolean queueUploads(){
 
-        Toast.makeText(getBaseContext(), "Number of files are: "+getNumberOfFilesInDirectory(),
+        Toast.makeText(getBaseContext(), "Number of files to upload: "+getNumberOfFilesInDirectory(),
                 Toast.LENGTH_SHORT).show();
         boolean completedUploads=false;
 
