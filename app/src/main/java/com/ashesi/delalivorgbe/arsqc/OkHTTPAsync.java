@@ -3,6 +3,8 @@ package com.ashesi.delalivorgbe.arsqc;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -63,7 +65,7 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
 
         Request request = new Request.Builder()
                 //.url("http://cs.ashesi.edu.gh/arsqc/ayorkor.php")
-                .url("http://10.10.55.112/ARSQC_server/file_download.php")
+                .url("http://10.10.56.36/ARSQC_server/file_download.php")
                 .post(requestBody)
                 .build();
 
@@ -86,6 +88,8 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
                     System.out.println("Delete failed "+ fileToUpload.getName());
                 }
             }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -22,8 +22,6 @@ android:shape="rectangle"   >
     android:bottom="5dp"    >
 </padding>
 
-<corners
-    android:radius="3dp"   >
-</corners>
+
 
 </shape>

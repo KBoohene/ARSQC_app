@@ -60,21 +60,21 @@ public class FeatureExtractor{
                     end=true;
                 }
 
-                }
                 if(count%4==0){
                     requiredLines=count;
                 }
+
+                }
+
             br.close();
         }catch (IOException e) {
            e.printStackTrace();
-            //Log.d("NumWin",e.getMessage());
         }
         //Check integer division
         System.out.println("Number of lines: "+requiredLines);
         int numSecs = requiredLines/4;
         numWindows=numSecs/10;
-       // String win = Integer.toString(numWindows);
-       // Log.d("NumWin",win);
+
     }
 
 
@@ -104,17 +104,27 @@ public class FeatureExtractor{
                 }
                 else{features[i][7]=2;}
             }
-            else if(end==true){
-                features[i][7]=3;
-                System.out.println("End exists");
-            }else{
+            else if(i==(numWindows-1)){
+                if(end==true) {
+                    features[i][7] = 3;
+                    System.out.println("End exists");
+                }
+            }
+            else {
                 features[i][7]=2;
             }
         }
 
         //Deletes raw file data
         File rawfile = new File(directory,fileName);
-        rawfile.delete();
+        if(rawfile.exists()){
+            rawfile.delete();
+            System.out.println("File deleted");
+        }
+        else{
+            System.out.println("File not deleted");
+        }
+
 
         return features;
 

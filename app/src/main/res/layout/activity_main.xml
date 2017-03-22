@@ -1,304 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
 
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right">
-            </LinearLayout>
-
-            <ImageButton
-                android:visibility="gone"
-                android:src="@drawable/ic_photo_camera_white_24dp"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/camera_button_sld"
-                android:onClick="cameraClicked"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:id="@+id/cameraButton" />
-
-            <ImageView
-                android:visibility="gone"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/imageView"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cameraButton"
-                android:layout_toRightOf="@+id/imageView"
-                android:layout_toEndOf="@+id/imageView">
-
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.20">
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:paddingTop="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.80">
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="48dp">
-
-                        <RadioGroup
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <RadioButton
-                                android:id="@+id/sampleSnailRadioButton"
-                                android:text="5Hz"
-                                android:layout_width="wrap_content"
-                                android:layout_height="48dp"
-                                android:onClick="onSampleRateRadioButtonClicked"
-                                android:checked="false" />
-
-                            <RadioButton
-                                android:id="@+id/sampleSlowRadioButton"
-                                android:text="15Hz"
-                                android:layout_width="wrap_content"
-                                android:layout_height="48dp"
-                                android:onClick="onSampleRateRadioButtonClicked"/>
-
-
-                            <RadioButton
-                                android:id="@+id/sampleMidRadioButton"
-                                android:layout_width="wrap_content"
-                                android:text="50Hz"
-                                android:layout_height="48dp"
-                                android:onClick="onSampleRateRadioButtonClicked"/>
-
-
-                            <RadioButton
-                                android:id="@+id/sampleFastRadioButton"
-                                android:layout_width="wrap_content"
-                                android:text="100H"
-                                android:layout_height="48dp"
-                                android:onClick="onSampleRateRadioButtonClicked"/>
-
-
-                        </RadioGroup>
-
-
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:text="Status"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/noticeView" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
-
-
-                            <TextView
-                                android:visibility="gone"
-                                android:text="Car Type"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <Spinner
-                                android:visibility="gone"
-                                android:id="@+id/vehicle_type"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
-                            </Spinner>
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
-
-
-                            <TextView
-                                android:visibility="gone"
-                                android:text="Car Condition"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <Spinner
-                                android:visibility="gone"
-                                android:id="@+id/vehicle_condition"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
-                            </Spinner>
-
-                        </LinearLayout>
-
-
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:visibility="gone"
-                                android:text="Car Age"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <Spinner
-                                android:visibility="gone"
-                                android:id="@+id/vehicle_age"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
-                            </Spinner>
-
-                        </LinearLayout>
-
-
-
-
-
-                    </LinearLayout>
-
-                    <Button
-                        android:visibility="gone"
-                        android:id="@+id/good_road_button"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:textSize="16sp"
-                        android:background="@drawable/green_button_sld"
-                        android:textColor="#FFFFFF"
-                        android:text="Good Road"
-                        android:onClick="goodRoadClicked"/>
-
-                    <Button
-                        android:visibility="gone"
-                        android:id="@+id/fair_road_button"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:textSize="16sp"
-                        android:background="@drawable/asphalt_button_sld"
-                        android:textColor="#FFFFFF"
-                        android:text="Fair Road"
-                        android:onClick="fairRoadClicked"/>
-
-                    <Button
-                        android:visibility="gone"
-                        android:id="@+id/bad_road_button"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Bad Road"
-                        android:textSize="16sp"
-                        android:background="@drawable/red_button_sld"
-                        android:textColor="#FFFFFF"
-                        android:onClick="badRoadClicked"/>
-
-                    <ToggleButton
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:textOn="Pause Recording"
-                        android:textOff="Start Recording"
-                        android:id="@+id/start_stop_toggle"
-                        android:onClick="startStopToggleClicked"
-                        android:checked="false" />
-
-                    <Button
-                        android:text="End Recording"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/end_recording"
-                        android:onClick="endButtonClicked"
-                        style="@style/Widget.AppCompat.Button" />
-
-
-                    <TextView
-                        android:id="@+id/testX"
-                        android:text="000000000"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"/>
-
-                    <Button
-                        android:visibility="visible"
-                        android:id="@+id/upload_file_button"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Post Files"
-                        android:textSize="16sp"
-                        android:background="@drawable/red_button_sld"
-                        android:textColor="#FFFFFF"
-                        android:onClick="testButton"/>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.20"
-                    android:id="@+id/rightstick">
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-    </ScrollView>
+    <TextView
+        android:id="@+id/testX"
+        android:text="@string/data_vis"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/end_recording"
+        android:layout_alignLeft="@+id/end_recording"
+        android:layout_alignStart="@+id/end_recording" />
+
+    <TextView
+        android:text="@string/status"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/noticeView"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/start_stop_toggle"
+        android:layout_alignStart="@+id/start_stop_toggle"
+        android:layout_marginTop="30dp" />
+
+    <ToggleButton
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:textOn="@string/pause_recording"
+        android:textOff="@string/start_recording"
+        android:id="@+id/start_stop_toggle"
+        android:onClick="startStopToggleClicked"
+        android:checked="false"
+        android:layout_below="@+id/noticeView"
+        android:layout_alignLeft="@+id/end_recording"
+        android:layout_alignStart="@+id/end_recording" />
+
+    <Button
+            android:text="@string/end_recording"
+            android:layout_width="248dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/end_recording"
+            android:onClick="endButtonClicked"
+            style="@style/Widget.AppCompat.Button"
+        android:layout_below="@+id/start_stop_toggle"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="@string/post_files"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_button_sld"
+        android:onClick="testButton"
+        android:id="@+id/upload"
+        android:textColor="@color/white"
+        android:layout_marginTop="47dp"
+        android:layout_width="248dp"
+        android:layout_below="@+id/testX"
+        android:layout_alignLeft="@+id/testX"
+        android:layout_alignStart="@+id/testX" />
 
 
 </RelativeLayout>

@@ -7,41 +7,26 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.io.Console;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,28 +35,11 @@ import android.provider.Settings.Secure;
 
 
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener, AdapterView.OnItemSelectedListener {
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
 
     private static final String TAG = "MainActivity.java";
-
-    private static final String GOOD_ROAD = "GOOD_ROAD";
-    private static final String FAIR_ROAD = "FAIR_ROAD";
-    private static final String BAD_ROAD = "BAD_ROAD";
-    static final int REQUEST_TAKE_PHOTO = 1;
-    private static final int MEDIA_TYPE_IMAGE = 1;
-    private static final int MEDIA_TYPE_VIDEO = 2;
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int MAX_LINES =2000;
-    private Uri fileUri;
-
-    private ImageView iv;
-    private Spinner vehicleAgeSpinner;
-    private Spinner vehicleClassSpinner;
-    private Spinner vehicleConditionSpinner;
-
-    ArrayAdapter<String> vehicleClassAdapter;
-    ArrayAdapter<String> vehicleConditionAdapter;
-    ArrayAdapter<String> vehicleAgeAdapter;
 
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
@@ -94,10 +62,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Float speed;
     private TextView txtView;
     private ToggleButton toggle;
-    private RadioButton sampleFastRadioButton;
-    private RadioButton sampleMidRadioButton;
-    private RadioButton sampleSlowRadioButton;
-    private RadioButton sampleSnailRadioButton;
+
     private Calendar c;
     private SimpleDateFormat sdf;
     private String sdfString;
@@ -113,9 +78,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int sensorDelay;
     private int line_number;
 
-    private String vehicleAge;
-    private String vehicleClass;
-    private String vehicleCondition;
     private Boolean checkExternal;
     private TextView noticeView;
     private File sdcard;
@@ -145,66 +107,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         txtView = (TextView) findViewById(R.id.testX);
         toggle = (ToggleButton) findViewById(R.id.start_stop_toggle);
         noticeView=(TextView) findViewById(R.id.noticeView);
-
-        sampleSlowRadioButton = (RadioButton) findViewById(R.id.sampleSlowRadioButton);
-        sampleMidRadioButton = (RadioButton) findViewById(R.id.sampleMidRadioButton);
-        sampleFastRadioButton = (RadioButton) findViewById(R.id.sampleFastRadioButton);
-        sampleSnailRadioButton = (RadioButton) findViewById(R.id.sampleSnailRadioButton);
-
-        vehicleAge = "";
-        vehicleClass = "";
-        vehicleCondition = "";
-
-        vehicleAgeSpinner = (Spinner) findViewById(R.id.vehicle_age);
-        vehicleClassSpinner = (Spinner) findViewById(R.id.vehicle_type);
-        vehicleConditionSpinner = (Spinner) findViewById(R.id.vehicle_condition);
-
-        vehicleAgeSpinner.setOnItemSelectedListener(this);
-        vehicleClassSpinner.setOnItemSelectedListener(this);
-        vehicleConditionSpinner.setOnItemSelectedListener(this);
-
-
-        List<String> carAgeCategories = new ArrayList<String>();
-        carAgeCategories.add("< 1 year");
-        carAgeCategories.add("1 - 2 years");
-        carAgeCategories.add("2 - 3 years");
-        carAgeCategories.add("3 - 4 years");
-        carAgeCategories.add("4 - 5 years");
-        carAgeCategories.add("> 5 years");
-
-
-        List<String> carClassCategories = new ArrayList<String>();
-        carClassCategories.add("Micro car");
-        carClassCategories.add("Saloon car");
-        carClassCategories.add("SUV");
-        carClassCategories.add("Offroad 4WD");
-        carClassCategories.add("Bus");
-
-
-        List<String> carConditionCategories = new ArrayList<String>();
-        carConditionCategories.add("Well maintained");
-        carConditionCategories.add("Fairly maintained");
-        carConditionCategories.add("Poorly maintained");
-
-        vehicleAgeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, carAgeCategories);
-        vehicleAgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vehicleAgeSpinner.setAdapter(vehicleAgeAdapter);
-
-        vehicleClassAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, carClassCategories);
-        vehicleClassAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vehicleClassSpinner.setAdapter(vehicleClassAdapter);
-
-        vehicleConditionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, carConditionCategories);
-        vehicleConditionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vehicleConditionSpinner.setAdapter(vehicleConditionAdapter);
-
-
+        uploadFileButton = (Button)findViewById(R.id.upload);
         sensorDelay = SensorManager.SENSOR_DELAY_UI;
-        sampleSlowRadioButton.setChecked(true);
 
-        iv=(ImageView)findViewById(R.id.imageView);
-
-        uploadFileButton = (Button)findViewById(R.id.upload_file_button);
 
         phoneModel = "";
         phoneName = "";
@@ -233,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sdcard=Environment.getExternalStorageDirectory();
         dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
 
-        resetUploadButton();
     }
 
     @Override
@@ -286,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Float y = sensorEvent.values[1];
                 Float z = sensorEvent.values[2];
 
-                writeToFile(x, y, z, speed, longitude, latitude, vehicleClass, vehicleAge, vehicleCondition);
+                writeToFile(x, y, z, speed, longitude, latitude);
                 noticeView.setVisibility(View.VISIBLE);
                 noticeView.setText("Recording");
 
@@ -346,53 +250,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
-
-
-        Spinner spinner = (Spinner) parent;
-
-        if(spinner.getId() == R.id.vehicle_age){
-
-            vehicleAge = parent.getItemAtPosition(position).toString().toLowerCase().replaceAll("\\s+","");
-            vehicleAge = vehicleAge.substring(0,2);
-        }
-
-        else if(spinner.getId() == R.id.vehicle_type){
-
-            vehicleClass = parent.getItemAtPosition(position).toString().toLowerCase();
-            String[] vClassExploded = vehicleClass.split(" ");
-
-            //save a few bytes by shortening
-            if(vClassExploded.length > 1){
-                vehicleClass = vClassExploded[0].charAt(0) + "" + vClassExploded[1].charAt(0);
-            }else{
-                vehicleClass = vClassExploded[0].charAt(0) + "";
-            }
-
-        }
-
-        else if(spinner.getId() == R.id.vehicle_condition){
-
-            vehicleCondition = parent.getItemAtPosition(position).toString().toLowerCase();
-            String[] vConditionExploded = vehicleCondition.split(" ");
-
-            //save a few bytes by shortening
-            if(vConditionExploded.length > 1){
-                vehicleCondition = vConditionExploded[0].charAt(0) + "" + vConditionExploded[1].charAt(0);
-            }else{
-                vehicleCondition = vConditionExploded[0].charAt(0)+"";
-            }
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
     public static boolean canWriteOnExternalStorage(){
         String state = Environment.getExternalStorageState();
@@ -403,11 +260,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return false;
     }
 
-    public void writeToFile(Float x, Float y, Float z, Float speed, Double longitude, Double latitude,
-                            String vehicleClass, String vehicleAge, String vehicleCondition){
+    public void writeToFile(Float x, Float y, Float z, Float speed, Double longitude, Double latitude){
 
         if(checkExternal==true){
-
 
             try {
                 if(!dir.exists()){
@@ -420,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     file.createNewFile();
                     writeStart(file);
                 }
-
 
 
                 if(line_number>=MAX_LINES){
@@ -501,10 +355,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             senSensorManager.registerListener(this, senRotationVestor, sensorDelay);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, this);
 
-            sampleMidRadioButton.setEnabled(false);
-            sampleFastRadioButton.setEnabled(false);
-            sampleSlowRadioButton.setEnabled(false);
-            sampleSnailRadioButton.setEnabled(false);
+
 
             if(!locationLocked){
                 Toast.makeText(getBaseContext(), "Getting GPS lock. Might take a while", Toast.LENGTH_LONG).show();
@@ -516,19 +367,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } else {
             noticeView.setText("Paused Recording");
             senSensorManager.unregisterListener(this);
-            sampleMidRadioButton.setEnabled(true);
-            sampleFastRadioButton.setEnabled(true);
-            sampleSlowRadioButton.setEnabled(true);
-            sampleSnailRadioButton.setEnabled(true);
 
             resetUploadButton();
         }
     }
 
     public void endButtonClicked(View view){
-        noticeView.setText("Ended Recording");
+        startClassification(filename);
         toggle.setChecked(false);
         senSensorManager.unregisterListener(this);
+
+        Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
+        noticeView.setText("Ended Recording");
 
         try {
 
@@ -547,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             FileOutputStream out = new FileOutputStream(file, true);
             OutputStreamWriter osw = new OutputStreamWriter(out);
-            String line ="\n==================End===================\n";
+            String line ="==================End===================\n";
             osw.append(line);
             osw.close();
             out.close();
@@ -557,40 +407,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }catch(Exception e){
             System.err.println("File not found");
         }
+
+        currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        currentDateTimeString = currentDateTimeString.replace(':','_');
+        filename = ""+androidId+"_"+phoneName+"_"+phoneModel+"_"+currentDateTimeString+
+                fileExtension;
     }
 
-    public void onSampleRateRadioButtonClicked(View view){
-        boolean checked = ((RadioButton) view).isChecked();
-        sensorDelay = SensorManager.SENSOR_DELAY_FASTEST;
 
-        switch (view.getId()){
-
-            case R.id.sampleFastRadioButton:
-                if(checked){
-                    sensorDelay = SensorManager.SENSOR_DELAY_FASTEST;
-                }
-                break;
-
-            case R.id.sampleMidRadioButton:
-                if(checked){
-                    sensorDelay = SensorManager.SENSOR_DELAY_GAME;
-                }
-                break;
-            case R.id.sampleSlowRadioButton:
-                if(checked){
-                    sensorDelay = SensorManager.SENSOR_DELAY_UI;
-                }
-                break;
-            case R.id.sampleSnailRadioButton:
-                if(checked){
-                    sensorDelay = SensorManager.SENSOR_DELAY_NORMAL;
-                }
-                break;
-
-            default:
-
-        }
-    }
 
     public void writeStart(File file){
         try{
@@ -608,181 +432,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    public void writeClassToFile(String classification){
-
-        File sdcard=Environment.getExternalStorageDirectory();
-        File dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
-
-        try {
-            if(!dir.exists()){
-                dir.mkdirs();
-            }
-
-            File file = new File(dir,"roughnessData.txt");
-
-            if(!file.exists()){
-                file.createNewFile();
-            }
-
-            FileOutputStream out = new FileOutputStream(file,true);
-            OutputStreamWriter osw = new OutputStreamWriter(out);
-            String line = "\n******" + classification + "******\n\n";
-            osw.append(line);
-            osw.close();
-            out.close();
-
-        }catch(Exception e){
-            System.err.println("File not found");
-        }
-
-
-       /* try {
-            outputStream = openFileOutput(filename, Context.MODE_APPEND);
-            String line = "\n******" + classification + "******\n\n";
-            outputStream.write(line.getBytes());
-            //outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    public void goodRoadClicked(View view) {
-        writeClassToFile(GOOD_ROAD);
-        Toast.makeText(getBaseContext(),GOOD_ROAD,
-                Toast.LENGTH_SHORT).show();
-    }
-
-    public void fairRoadClicked(View view) {
-        writeClassToFile(FAIR_ROAD);
-        Toast.makeText(getBaseContext(),FAIR_ROAD,
-                Toast.LENGTH_SHORT).show();
-    }
-
-    public void badRoadClicked(View view) {
-        writeClassToFile(BAD_ROAD);
-        Toast.makeText(getBaseContext(),BAD_ROAD,
-                Toast.LENGTH_SHORT).show();
-    }
-
-    public void cameraClicked(View view){
-
-//        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(intent, 0);
-
-        dispatchTakePictureIntent();
-
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-
-        try{
-            Bitmap bp = (Bitmap) data.getExtras().get("data");
-            iv.setImageBitmap(bp);
-
-        }catch (Exception e){
-
-        }
-
-        galleryAddPic();
-
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
-    }
-
-    String mCurrentPhotoPath;
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-
-        return image;
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
-
-    // Read text from file
-    public void readFile(View v) {
-        //reading text from file
-        try {
-            FileInputStream fileIn=openFileInput(filename);
-            InputStreamReader InputRead= new InputStreamReader(fileIn);
-
-            char[] inputBuffer= new char[READ_BLOCK_SIZE];
-            String s="";
-            int charRead;
-
-            while ((charRead=InputRead.read(inputBuffer))>0) {
-                // char to string conversion
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                s +=readstring;
-            }
-            InputRead.close();
-            //Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void listFilesInDirectory(){
-        String[] files = fileList();
-        String fileList="";
-
-        for (String element : files) {
-            fileList = fileList + element +"\n";
-        }
-
-        //Toast.makeText(getBaseContext(), fileList, Toast.LENGTH_SHORT).show();
-    }
-
-    public int getNumberOfFilesInDirectory(){
-        //return fileList().length;
-
-        return getFilesInDir().length;
-    }
-
-    public File getFileAtIndex(int index){
-        return new File(getFilesDir() + "/" + fileList()[index]);
-    }
-
 
     public boolean fileDirectoryIsEmpty(){
         return(fileList().length==0);
@@ -794,22 +443,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //uploadFileButton.setText(String.valueOf(getDirSize())+"KB to upload");
 
-        if(fileDirectoryIsEmpty()){
-            uploadFileButton.setVisibility(View.GONE);
-        }else {
-            uploadFileButton.setVisibility(View.VISIBLE);
-        }
+
     }
 
-
-    public String getTodayTimestamp(){
-        return timeStamp;
-    }
-
-    public String getFileTimestamp(String fileName){
-        return fileName.substring(fileName.length()-(sdfString.length()+fileExtension.length()),
-                fileName.length()-fileExtension.length());
-    }
 
     // Start the service
     public void startUploadService(){
@@ -827,23 +463,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startUploadService();
     }
 
-
-    public long getDirSize(){
-
-        long totalSize=0;
-
-        for(int i=0; i<getNumberOfFilesInDirectory(); i++){
-            totalSize += getFileSize(getFilesInDir()[i]);
-        }
-
-        /*long totalSize = 0;
-
-        for(int i=0; i<getNumberOfFilesInDirectory(); i++){
-            totalSize += getFileAtIndex(i).length();
-        }
-        */
-        return totalSize;
-    }
 
     public void startClassification(String fileName){
         ClassifierService classify = new ClassifierService(fileName);
