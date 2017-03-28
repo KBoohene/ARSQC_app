@@ -20,4 +20,9 @@
     <string name="car_type">Car Type</string>
     <string name="fair_road">Fair Road</string>
     <string name="good_road">Good Road</string>
+    <string name="welcome">Welcome</string>
+    <string name="menu_action_setting">Setting</string>
+    <string name="menu_record_page">Record Page</string>
+    <string name="action_web_view">Web View</string>
+    <string name="action_home">Home</string>
 </resources>

@@ -30,6 +30,9 @@ public class ClassifierService implements Runnable {
         filename=name;
 
     }
+    public ClassifierService(){
+
+    }
 
     //Runs as soon as the thread starts
     public void run() {
