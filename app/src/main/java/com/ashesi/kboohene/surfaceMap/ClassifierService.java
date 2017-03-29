@@ -1,17 +1,13 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
 import android.os.Environment;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import static com.ashesi.delalivorgbe.arsqc.MainActivity.canWriteOnExternalStorage;
+import static com.ashesi.kboohene.surfaceMap.MainActivity.canWriteOnExternalStorage;
 
 /**
  * @author Kwabena Boohene on 1/9/2017.
@@ -124,7 +120,7 @@ public class ClassifierService implements Runnable {
         Boolean checkExternal = canWriteOnExternalStorage();
         if(checkExternal==true) {
             File sdcard = Environment.getExternalStorageDirectory();
-            File dir = new File(sdcard.getAbsolutePath() + "/ARSQC/Classification");
+            File dir = new File(sdcard.getAbsolutePath() + "/SurfaceMap/Classification");
 
 
             try {

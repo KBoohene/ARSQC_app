@@ -1,4 +1,4 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 /**
  * @author delalivorgbe March 2014
  * modified by Kwabena Boohene January 2017
@@ -10,7 +10,6 @@ package com.ashesi.delalivorgbe.arsqc;
 
 
 import java.util.*;
-import java.io.IOException;
 
 public class DataPoints{
 

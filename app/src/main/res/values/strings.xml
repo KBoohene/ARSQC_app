@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ARSQC</string>
+    <string name="app_name">SurfaceMap</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -10,19 +10,14 @@
     <string name="pause_recording">Pause Recording</string>
     <string name="post_files">Post Files</string>
     <string name="status">Status</string>
-    <string name="car_condition">Car Condition</string>
-    <string name="_100h">100H</string>
-    <string name="_15hz">15Hz</string>
-    <string name="_50hz">50Hz</string>
-    <string name="_5hz">5Hz</string>
-    <string name="bad_road">Bad Road</string>
-    <string name="car_age">Car Age</string>
-    <string name="car_type">Car Type</string>
-    <string name="fair_road">Fair Road</string>
-    <string name="good_road">Good Road</string>
     <string name="welcome">Welcome</string>
     <string name="menu_action_setting">Setting</string>
-    <string name="menu_record_page">Record Page</string>
+    <string name="menu_about_us">About</string>
     <string name="action_web_view">Web View</string>
     <string name="action_home">Home</string>
+    <string name="label_surfacemap">SurfaceMap</string>
+    <string name="record_data">Record Data</string>
+    <string name="view_map">View Map</string>
+    <string name="option_text">choose an option</string>
+    <string name="about_surfacemap">About SurfaceMap</string>
 </resources>

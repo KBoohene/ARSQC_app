@@ -1,12 +1,13 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class home extends AppCompatActivity {
 
@@ -27,21 +28,32 @@ public class home extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.action_record){
-            Intent intent1 = new Intent(this, MainActivity.class);
-            this.startActivity(intent1);
+        if(item.getItemId()==R.id.action_about_us){
+            AlertDialog.Builder mBuilder= new AlertDialog.Builder(home.this);
+            View mView = getLayoutInflater().inflate(R.layout.about_us_dialog,null);
+            mBuilder.setView(mView);
+            AlertDialog dialog = mBuilder.create();
+            dialog.show();
             return true;
         }
 
-        else if(item.getItemId()==R.id.action_webPage){
-
-            Intent intent2 = new Intent(this, WebDisplay.class);
-            this.startActivity(intent2);
-            return true;
-        }
         else{
             return super.onOptionsItemSelected(item);
         }
+    }
 
+
+    public void recordView(View v){
+        if(v.getId()==R.id.button_record){
+            Intent rec = new Intent(home.this,MainActivity.class);
+            startActivity(rec);
+        }
+    }
+
+    public void mapView(View v){
+        if(v.getId()==R.id.button_webview){
+            Intent web = new Intent(home.this,WebDisplay.class);
+            startActivity(web);
+        }
     }
 }

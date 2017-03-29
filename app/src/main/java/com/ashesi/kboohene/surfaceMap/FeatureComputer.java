@@ -6,7 +6,7 @@
  * features from the dataset
  *
  */
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 import java.util.*;
 public class FeatureComputer{
 

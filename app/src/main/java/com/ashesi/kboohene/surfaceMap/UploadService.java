@@ -1,12 +1,10 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -102,10 +100,18 @@ public class UploadService extends Service {
 
     //Lists the number of files in the directory
     public int getNumberOfFilesInDirectory(){
+        int numberOfFiles;
         File dir = new File(Environment.getExternalStorageDirectory()
-                + "/ARSQC/Classification");
+                + "/SurfaceMap/Classification");
         filesToUpload = dir.listFiles();
-        int numberOfFiles=filesToUpload.length;
+
+        if(dir.listFiles()==null){
+            numberOfFiles=0;
+        }
+        else{
+            numberOfFiles=filesToUpload.length;
+        }
+
         return numberOfFiles;
     }
 
@@ -143,6 +149,10 @@ public class UploadService extends Service {
                     Toast.LENGTH_SHORT).show();
             System.out.println("Finished file uploads");
             stopSelf();
+        }
+        else{
+            Toast.makeText(getBaseContext(), "No File uploaded",
+                    Toast.LENGTH_SHORT).show();
         }
 
         return false;

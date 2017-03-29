@@ -1,4 +1,4 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 fileExtension;
         checkExternal = canWriteOnExternalStorage();
         sdcard=Environment.getExternalStorageDirectory();
-        dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
+        dir = new File(sdcard.getAbsolutePath()+"/SurfaceMap/rawData");
 
     }
 
@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         try {
 
             File sdcard=Environment.getExternalStorageDirectory();
-            File dir = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
+            File dir = new File(sdcard.getAbsolutePath()+"/SurfaceMap/rawData");
 
             if (!dir.exists()) {
                 dir.mkdirs();
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public File[] getFilesInDir(){
         File dir = new File(Environment.getExternalStorageDirectory()
-                + "/ARSQC/Classification");
+                + "/SurfaceMap/Classification");
         File [] filesToUpload = dir.listFiles();
 
         return filesToUpload;

@@ -1,4 +1,4 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
 /**
 * @author: Kwabena Boohene
@@ -6,7 +6,7 @@ package com.ashesi.delalivorgbe.arsqc;
 * This class extracts the features required for classification
 * */
 import android.os.Environment;
-import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class FeatureExtractor{
 
     // Gets file location to classify
     File sdcard= Environment.getExternalStorageDirectory();
-    File directory = new File(sdcard.getAbsolutePath()+"/ARSQC/rawData");
+    File directory = new File(sdcard.getAbsolutePath()+"/SurfaceMap/rawData");
     String testDataInputFile;
 
     FeatureComputer testDataComputer = new FeatureComputer(testDataPoints);

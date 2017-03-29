@@ -1,4 +1,4 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.widget.Toast;
 
 public class WiFiChangeReceiver extends BroadcastReceiver {
 

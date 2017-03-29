@@ -1,9 +1,7 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;

@@ -1,4 +1,4 @@
-package com.ashesi.delalivorgbe.arsqc;
+package com.ashesi.kboohene.surfaceMap;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

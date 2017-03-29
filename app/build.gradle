@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.ashesi.delalivorgbe.arsqc"
+        applicationId "com.ashesi.kboohene.surfaceMap"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

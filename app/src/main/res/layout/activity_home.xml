@@ -1,11 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:text="@string/welcome"
+        android:textSize="40sp" />
 
+    <Button
+        android:id="@+id/button_webview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button_record"
+        android:layout_alignRight="@+id/button_record"
+        android:layout_below="@+id/button_record"
+        android:layout_marginTop="41dp"
+        android:onClick="mapView"
+        android:text="@string/view_map"
+        android:layout_alignLeft="@+id/button_record"
+        android:layout_alignStart="@+id/button_record" />
+
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:onClick="recordView"
+        android:text="@string/record_data"
+        android:layout_below="@+id/option_text"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/option_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/option_text"
+        android:textSize="18sp"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
