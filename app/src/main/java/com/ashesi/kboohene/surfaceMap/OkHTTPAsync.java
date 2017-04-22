@@ -63,7 +63,7 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
 
         Request request = new Request.Builder()
                 //.url("http://cs.ashesi.edu.gh/arsqc/ayorkor.php")
-                .url("http://172.20.16.18/ARSQC_server/file_download.php")
+                .url("http://cs.ashesi.edu.gh/~kwabena.boohene/ARSQC_server/file_download.php")
                 .post(requestBody)
                 .build();
 

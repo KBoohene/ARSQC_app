@@ -133,15 +133,10 @@ public class UploadService extends Service {
 
         for(int i=0; i<getNumberOfFilesInDirectory(); i++){
             System.out.println("Trying "+getFileAtIndex(i).getName());
-            if(!(getFileTimestamp(getFileAtIndex(i).getName()).equals(getTodayTimestamp()))){
                 Log.d("Upload Message","Not equal to today. Uploading");
                 postFile(getFileAtIndex(i));
                 completedUploads=true;
-            }else{
-               Log.d("Upload Message","Equal to today. Not uploading");
-                postFile(getFileAtIndex(i));
-                completedUploads=false;
-            }
+
         }
 
         if(completedUploads==true){

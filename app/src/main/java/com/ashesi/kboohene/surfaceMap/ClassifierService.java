@@ -146,6 +146,8 @@ public class ClassifierService implements Runnable {
                             exFeatures[i][2], exFeatures[i][3], exFeatures[i][4]));
 
                     roadGrade = grade(class1, class2);
+
+                    //RoadGrade-Latitude-Longitude-Class1_Value-Class2_Value-Path-
                     printer.println(roadGrade + "," + exFeatures[i][5] + "," + exFeatures[i][6]+
                             ","+class1+","+class2+","+exFeatures[i][7]);
                 }
