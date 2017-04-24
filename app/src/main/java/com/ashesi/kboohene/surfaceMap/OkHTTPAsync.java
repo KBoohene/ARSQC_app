@@ -10,8 +10,12 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
 
-
+    private int fileNum, numberOfFiles;
     private File fileToUpload;
 
     private Context appContext;
@@ -33,9 +37,11 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
         appContext = ApplicationContextProvider.getContext();
     }
 
-    public OkHTTPAsync(File upFile){
+    public OkHTTPAsync(File upFile, int number, int numFiles){
         fileToUpload = upFile;
         appContext = ApplicationContextProvider.getContext();
+        fileNum=number;
+        numberOfFiles=numFiles;
     }
 
     public static final MediaType MEDIA_TYPE_MARKDOWN
@@ -59,11 +65,9 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
                         RequestBody.create(MEDIA_TYPE_MARKDOWN, fileToUpload))
                 .build();
 
-        //.url("http://54.69.212.93/uploadarsqc.php")
-
         Request request = new Request.Builder()
-                //.url("http://cs.ashesi.edu.gh/arsqc/ayorkor.php")
-                .url("http://cs.ashesi.edu.gh/~kwabena.boohene/ARSQC_server/file_download.php")
+                //.url("http://cs.ashesi.edu.gh/~kwabena.boohene/ARSQC_server/file_download.php")
+                .url("http://10.10.58.51/ARSQC_server/file_download.php")
                 .post(requestBody)
                 .build();
 
@@ -76,18 +80,14 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
             System.out.println(responseBody);
 
             if(responseBody.equals("Successful")){
-
                 System.out.println("successfully uploaded " + fileToUpload.getName());
 
                 if(fileToUpload.delete()){
                     System.out.println("successfully deleted " + fileToUpload.getName());
-                    //mActivity.resetUploadButton();
                 }else{
                     System.out.println("Delete failed "+ fileToUpload.getName());
                 }
             }
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,8 +96,41 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
         return null;
     }
 
+
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+
+        if(fileNum==numberOfFiles){
+        msgConfirm confirm = new msgConfirm();
+        confirm.execute();
+        }
+    }
+
+    private class msgConfirm extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String response="false";
+            try {
+                URL url = new URL("http://10.10.58.51/ARSQC_server/file_download.php?confirm=1");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+
+                String line;
+                StringBuilder sb= new StringBuilder();
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                while ((line=br.readLine()) != null) {
+                    sb.append(line);
+                    response=sb.toString();
+                }
+                br.close();
+            }
+            catch(Exception ex){
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
     }
 }

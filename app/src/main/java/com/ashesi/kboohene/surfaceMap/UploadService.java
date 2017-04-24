@@ -2,12 +2,20 @@ package com.ashesi.kboohene.surfaceMap;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -22,7 +30,7 @@ public class UploadService extends Service {
     private String sdfString;
     private String timeStamp;
     private String fileExtension;
-    private File [] filesToUpload;
+    private File[] filesToUpload;
 
     public UploadService() {
         c = Calendar.getInstance();
@@ -46,7 +54,7 @@ public class UploadService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent,int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         // Perform your long running operations here.
         //Toast.makeText(this, "Service Started \n About to start uploads", Toast.LENGTH_LONG).show();
         System.out.println("Service Started \n About to start uploads");
@@ -61,26 +69,25 @@ public class UploadService extends Service {
     }
 
 
-    public String getFileTimestamp(String fileName){
-        return fileName.substring(fileName.length()-(sdfString.length()+fileExtension.length()),
-                fileName.length()-fileExtension.length());
+    public String getFileTimestamp(String fileName) {
+        return fileName.substring(fileName.length() - (sdfString.length() + fileExtension.length()),
+                fileName.length() - fileExtension.length());
     }
 
     //Checks if the directory is empty
-    public boolean fileDirectoryIsEmpty(){
-        return(fileList().length==0);
+    public boolean fileDirectoryIsEmpty() {
+        return (fileList().length == 0);
     }
 
 
     //Posts file to the required server
-    public void postFile(File fileToUpload){
-
+    public void postFile(File fileToUpload,int fileNumber, int Numfiles) {
 
         System.out.println("About to upload " + fileToUpload.getName());
 
-        OkHTTPAsync fileUploadHandler = new OkHTTPAsync(fileToUpload);
-        System.out.println(("File Size: "+fileToUpload.length()/1024));
-        System.out.println("File name: "+fileToUpload.getName());
+        OkHTTPAsync fileUploadHandler = new OkHTTPAsync(fileToUpload,fileNumber,Numfiles);
+        System.out.println(("File Size: " + fileToUpload.length() / 1024));
+        System.out.println("File name: " + fileToUpload.getName());
 
         try {
             fileUploadHandler.execute(fileToUpload);
@@ -90,66 +97,62 @@ public class UploadService extends Service {
 
     }
 
-    /*private File getFileAtIndex(int index){
-        return new File(getFilesDir() + "/" + fileList()[index]);
-    }*/
-
-    /*public int getNumberOfFilesInDirectory(){
-        return fileList().length;
-    }*/
-
     //Lists the number of files in the directory
-    public int getNumberOfFilesInDirectory(){
+    public int getNumberOfFilesInDirectory() {
         int numberOfFiles;
         File dir = new File(Environment.getExternalStorageDirectory()
                 + "/SurfaceMap/Classification");
         filesToUpload = dir.listFiles();
 
-        if(dir.listFiles()==null){
-            numberOfFiles=0;
-        }
-        else{
-            numberOfFiles=filesToUpload.length;
+        if (dir.listFiles() == null) {
+            numberOfFiles = 0;
+        } else {
+            numberOfFiles = filesToUpload.length;
         }
 
         return numberOfFiles;
     }
 
     //Returns a specific file at a given index
-    private File getFileAtIndex(int index){
-        return  filesToUpload[index];
+    private File getFileAtIndex(int index) {
+        return filesToUpload[index];
     }
 
-    public String getTodayTimestamp(){
+    public String getTodayTimestamp() {
         return timeStamp;
     }
 
     //Queues the files to be uploaded
-    private boolean queueUploads(){
+    private boolean queueUploads() {
 
-        Toast.makeText(getBaseContext(), "Number of files to upload: "+getNumberOfFilesInDirectory(),
-                Toast.LENGTH_SHORT).show();
-        boolean completedUploads=false;
+        Toast.makeText(getBaseContext(), "Please wait while "+ getNumberOfFilesInDirectory()+
+                "flies upload", Toast.LENGTH_SHORT).show();
 
-        for(int i=0; i<getNumberOfFilesInDirectory(); i++){
-            System.out.println("Trying "+getFileAtIndex(i).getName());
-                Log.d("Upload Message","Not equal to today. Uploading");
-                postFile(getFileAtIndex(i));
-                completedUploads=true;
+        boolean completedUploads = false;
 
+        int numFiles =getNumberOfFilesInDirectory();
+
+        for (int i = 0; i < getNumberOfFilesInDirectory(); i++) {
+            System.out.println("Trying " + getFileAtIndex(i).getName());
+            postFile(getFileAtIndex(i),i+1,numFiles);
+            completedUploads = true;
         }
 
-        if(completedUploads==true){
+        if (completedUploads == true) {
             Toast.makeText(getBaseContext(), "Finished file uploads",
                     Toast.LENGTH_SHORT).show();
+
+
             System.out.println("Finished file uploads");
+
             stopSelf();
-        }
-        else{
+        } else {
             Toast.makeText(getBaseContext(), "No File uploaded",
                     Toast.LENGTH_SHORT).show();
         }
 
         return false;
     }
+
+
 }
