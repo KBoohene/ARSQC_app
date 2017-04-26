@@ -67,7 +67,7 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
 
         Request request = new Request.Builder()
                 //.url("http://cs.ashesi.edu.gh/~kwabena.boohene/ARSQC_server/file_download.php")
-                .url("http://10.10.58.51/ARSQC_server/file_download.php")
+                .url("http://192.168.13.157/ARSQC_server/file_download.php")
                 .post(requestBody)
                 .build();
 
@@ -113,7 +113,7 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
         protected String doInBackground(String... params) {
             String response="false";
             try {
-                URL url = new URL("http://10.10.58.51/ARSQC_server/file_download.php?confirm=1");
+                URL url = new URL("http://192.168.13.157/ARSQC_server/file_download.php?confirm=1");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 

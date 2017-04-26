@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         "," + gravityX + "," + gravityY + "," + gravityZ +
                         "," + speed.toString() + "," + accuracy.toString() +
                         "," + longitude.toString() + "," + latitude.toString() + "\n";
-
+                System.out.println(line);
                 osw.append(line);
                 osw.close();
                 out.close();
@@ -336,7 +336,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, this);
 
 
-
             if(!locationLocked){
                 Toast.makeText(getBaseContext(), "Getting GPS lock. Might take a while", Toast.LENGTH_LONG).show();
             }
@@ -353,12 +352,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void endButtonClicked(View view){
-        startClassification(filename);
-        toggle.setChecked(false);
-        senSensorManager.unregisterListener(this);
 
-        Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
-        noticeView.setText("Ended Recording");
 
         try {
 
@@ -368,6 +362,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if (!dir.exists()) {
                 dir.mkdirs();
             }
+            System.out.println(dir.getName());
 
             File file = new File(dir, filename);
 
@@ -382,11 +377,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             osw.close();
             out.close();
 
-            Toast.makeText(getBaseContext(), "Recording Ended",
-                    Toast.LENGTH_SHORT).show();
+
         }catch(Exception e){
             System.err.println("File not found");
         }
+
+        startClassification(filename);
+        toggle.setChecked(false);
+        senSensorManager.unregisterListener(this);
+
+        Toast.makeText(getBaseContext(), "Recording Ended",
+                Toast.LENGTH_SHORT).show();
+
+
+        noticeView.setText("Ended Recording");
+
+        Toast.makeText(this, "Finished Classifying", Toast.LENGTH_SHORT).show();
 
         currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         currentDateTimeString = currentDateTimeString.replace(':','_');

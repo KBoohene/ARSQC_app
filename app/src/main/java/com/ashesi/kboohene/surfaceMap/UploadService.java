@@ -126,7 +126,7 @@ public class UploadService extends Service {
     private boolean queueUploads() {
 
         Toast.makeText(getBaseContext(), "Please wait while "+ getNumberOfFilesInDirectory()+
-                "flies upload", Toast.LENGTH_SHORT).show();
+                " files upload", Toast.LENGTH_SHORT).show();
 
         boolean completedUploads = false;
 
