@@ -1,5 +1,10 @@
 package com.ashesi.kboohene.surfaceMap;
 
+/**
+ * @author Kwabena Boohene January 2017
+ * Adapted from Delali Vorgbe March 2014
+ * Main class that performs recording of text file data
+ */
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
@@ -27,8 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.provider.Settings.Secure;
-
-
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
@@ -150,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-
-
     // Accelerometer blocks
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // TODO Auto-generated method stub
     }
 
-
+    //Checks if data can be written on external storage
     public static boolean canWriteOnExternalStorage(){
         String state = Environment.getExternalStorageState();
         if(Environment.MEDIA_MOUNTED.equals(state)){
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return false;
     }
 
+    //Writes raw data to text file
     public void writeToFile(Float x, Float y, Float z, Float speed, Double longitude, Double latitude){
 
         if(checkExternal==true){
@@ -293,39 +295,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 System.err.println("File not found");
             }
         }
-       /* else{
-            try {
-                FileOutputStream fileout=openFileOutput(filename, Context.MODE_APPEND);
-                OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
 
-                Long tsLong = System.currentTimeMillis();
-                String ts = tsLong.toString();
-
-                String line = ts+
-                        "|"+x.toString()+"|"+y.toString()+"|"+z.toString()+
-                        "|"+gravityX+"|"+gravityY+"|"+gravityZ+
-                        "|"+ speed.toString()+"|"+accuracy.toString()+
-                        "|"+longitude.toString()+"|"+latitude.toString()+"|"+vehicleClass+
-                        "|"+vehicleAge+"|"+vehicleCondition+"\n";
-                outputWriter.write(line);
-                outputWriter.close();
-
-    //            txtView.setText(vehicleAge + "\n" +
-    //                    vehicleCondition + "\n" +
-    //                    vehicleClass+"\n");
-
-                //display file saved message
-    //            Toast.makeText(getBaseContext(), "File saved successfully!",
-    //                    Toast.LENGTH_SHORT).show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
 
     }
 
-
+    //Toggles the start recording button
     public void startStopToggleClicked(View view) {
         // Is the toggle on?
         boolean on = ((ToggleButton) view).isChecked();
@@ -340,17 +314,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Toast.makeText(getBaseContext(), "Getting GPS lock. Might take a while", Toast.LENGTH_LONG).show();
             }
 
-            //uploadFileButton.setVisibility(View.GONE);
-
 
         } else {
             noticeView.setText("Paused Recording");
             senSensorManager.unregisterListener(this);
 
-            resetUploadButton();
         }
     }
 
+    //Performs classification when the end button is clicked
     public void endButtonClicked(View view){
 
 
@@ -400,8 +372,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 fileExtension;
     }
 
-
-
+    //Writes 'START' to the beginning of a text file
     public void writeStart(File file){
         try{
             FileOutputStream out = new FileOutputStream(file,true);
@@ -418,29 +389,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-
+    //Checks if file directory is empty
     public boolean fileDirectoryIsEmpty(){
         return(fileList().length==0);
     }
 
-    public void resetUploadButton(){
-
-        //uploadFileButton.setText(String.valueOf(getDirSize()/1024)+"KB to upload");
-
-        //uploadFileButton.setText(String.valueOf(getDirSize())+"KB to upload");
-
-
-    }
-
-
-    // Start the service
+    // Start the upload background service
     public void startUploadService(){
         startService(new Intent(this, UploadService.class));
-    }
-
-    // Stop the service
-    public void stopService(View view) {
-        stopService(new Intent(this, UploadService.class));
     }
 
 
@@ -449,23 +405,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startUploadService();
     }
 
-
+    //Starts the classification background service
     public void startClassification(String fileName){
         ClassifierService classify = new ClassifierService(fileName);
         new Thread(classify).start();
     }
 
-    public long getFileSize(File file){
-        long sizeInBytes = file.length();
-        long sizeInKB = sizeInBytes/1024;
-        return sizeInKB;
-    }
-
-    public File[] getFilesInDir(){
-        File dir = new File(Environment.getExternalStorageDirectory()
-                + "/SurfaceMap/Classification");
-        File [] filesToUpload = dir.listFiles();
-
-        return filesToUpload;
-    }
 }

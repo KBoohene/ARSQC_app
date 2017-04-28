@@ -1,4 +1,8 @@
 package com.ashesi.kboohene.surfaceMap;
+/**
+ * @author delalivorgbe March 2014
+ *
+ */
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;

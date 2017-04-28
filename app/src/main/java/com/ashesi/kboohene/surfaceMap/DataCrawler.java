@@ -2,8 +2,6 @@ package com.ashesi.kboohene.surfaceMap;
 /**
  * @author delalivorgbe March 2014
  * modified by Kwabena Boohene January 2017
- *
- *
  * This class traverses a text file containing data collected from the field.
  * It stores each datapoint in an array index for further manipulation
  *
@@ -20,7 +18,7 @@ public class DataCrawler{
     BufferedReader br;
     String currentLine;
 
-
+    //Constructor
     public DataCrawler(){
         currentLine = null;
         printWriter = null;
@@ -49,16 +47,11 @@ public class DataCrawler{
                      * Data stored in splits array
                      * index - data
                      * *******************************
-                     * 0 - timestamp
-                     * 1 - timestamp
-                     * 2 - x-axis acceleration
-                     * 3 - z-axis acceleration
-                     * 4 - y-axis acceleration
-                     * 5 - x-axis linear acceleration
-                     * 6 - z-axis linear acceleration
-                     * 7 - y-axis linear acceleration
-                     * 8 - latitude
-                     * 9 - longitude
+                     * 0 - x-axis linear acceleration
+                     * 1 - z-axis linear acceleration
+                     * 2 - y-axis linear acceleration
+                     * 3 - latitude
+                     * 4 - longitude
                      * *******************************
                      */
 

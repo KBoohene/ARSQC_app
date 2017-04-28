@@ -1,9 +1,10 @@
 package com.ashesi.kboohene.surfaceMap;
 
 /**
-* @author: Kwabena Boohene
-* February 2017
-* This class extracts the features required for classification
+ * @author: Kwabena Boohene
+ * February 2017
+ * This class extracts the features required for classification
+ * Adapted from Feature Extraction class created by Delali Vorgbe (2014)
 * */
 import android.os.Environment;
 
@@ -24,6 +25,7 @@ public class FeatureExtractor{
     private DataPoints testDataPoints = new DataPoints();
     private boolean start=false, end=false;
 
+    //Constructor of the class
     public FeatureExtractor(String name){
         fileName=name;
     }
@@ -96,7 +98,7 @@ public class FeatureExtractor{
             features[i][5]=testDataComputer.computeLong().get(i);
             features[i][6]=testDataComputer.computeLat().get(i);
 
-
+            //Adds the start and end points path value
             if(i==0){
                 if(start==true){
                     System.out.println("Start Exists");

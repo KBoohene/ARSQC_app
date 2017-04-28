@@ -1,7 +1,6 @@
 /**
  * @author delalivorgbe
  * March 2014
- *
  * This class defines the window size and computes required
  * features from the dataset
  *
@@ -68,7 +67,13 @@ public class FeatureComputer{
     }
 
 
-    //Stores the required longitudes
+    /**
+     * @author Kwabena Boohene
+     * March 2017
+     * Stores the required longitudes
+     *
+     */
+
     public ArrayList<Double> computeLong(){
         for (int i=0;i<dataPoints.longLog.size();i++){
             if((i%40)== 0){
@@ -78,8 +83,13 @@ public class FeatureComputer{
         return longi;
     }
 
+    /**
+     * @author Kwabena Boohene
+     * March 2017
+     * Stores the required latitude
+     *
+     */
 
-    //Stores the required latitude
     public ArrayList<Double> computeLat(){
         for (int i=0;i<dataPoints.latLog.size();i++){
             if((i%40)== 0){

@@ -6,6 +6,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+/**
+ * @author Kwabena Boohene April 2017
+ * This class displays a map interface inside an inbuilt
+ * browser in the applicaiton
+ */
+
 public class WebDisplay extends AppCompatActivity {
 
     @Override
@@ -18,7 +24,6 @@ public class WebDisplay extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         WebView myWebView = (WebView) findViewById(R.id.map_page);
-
 
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);

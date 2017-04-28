@@ -20,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by delalivorgbe on 11/1/15.
+ * Modified by Kwabena Boohene March 2017
+ * Class performs the posting of files to a server
  */
 public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
 
@@ -66,8 +68,8 @@ public class OkHTTPAsync extends AsyncTask<File, Integer, String> {
                 .build();
 
         Request request = new Request.Builder()
-                //.url("http://cs.ashesi.edu.gh/~kwabena.boohene/ARSQC_server/file_download.php")
-                .url("http://192.168.13.157/ARSQC_server/file_download.php")
+                .url("http://cs.ashesi.edu.gh/~kwabena.boohene/ARSQC_server/file_download.php")
+                //.url("http://192.168.13.157/ARSQC_server/file_download.php")
                 .post(requestBody)
                 .build();
 

@@ -9,6 +9,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+
+/**
+ * @author Kwabena Boohene on 4/10/2017.
+ * Welcome page of the application
+ */
 public class home extends AppCompatActivity {
 
     @Override
@@ -42,7 +47,7 @@ public class home extends AppCompatActivity {
         }
     }
 
-
+    //Record button
     public void recordView(View v){
         if(v.getId()==R.id.button_record){
             Intent rec = new Intent(home.this,MainActivity.class);
@@ -50,6 +55,7 @@ public class home extends AppCompatActivity {
         }
     }
 
+    //Map button
     public void mapView(View v){
         if(v.getId()==R.id.button_webview){
             Intent web = new Intent(home.this,WebDisplay.class);

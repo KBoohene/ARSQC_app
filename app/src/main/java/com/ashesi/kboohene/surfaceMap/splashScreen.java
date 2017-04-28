@@ -6,6 +6,11 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * @author Kwabena Boohene April 2017
+ * Simple splash screen page on opening the application
+ */
+
 public class splashScreen extends Activity {
 
     @Override
@@ -17,6 +22,7 @@ public class splashScreen extends Activity {
         Typeface myFont = Typeface.createFromAsset(getAssets(), "fonts/Jura-Regular.ttf");
         customView.setTypeface(myFont);
 
+        //Runs the splash screen for a number of seconds
         Thread splashThread = new Thread(){
             @Override
             public void run() {

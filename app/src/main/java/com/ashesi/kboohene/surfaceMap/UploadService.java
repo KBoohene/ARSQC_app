@@ -20,8 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * @author Delali Vorgbe on November 2015
- * modified by Kwabena Boohene January 2017
+ * @author Kwabena Boohene January 2017
+ * Adapted from Delali Vorgbe (November 2015)
  */
 public class UploadService extends Service {
 
@@ -32,6 +32,7 @@ public class UploadService extends Service {
     private String fileExtension;
     private File[] filesToUpload;
 
+    //Constructor
     public UploadService() {
         c = Calendar.getInstance();
         sdfString = "dd-MM-yy-ss";
@@ -68,11 +69,6 @@ public class UploadService extends Service {
         System.out.println("Service Destroyed");
     }
 
-
-    public String getFileTimestamp(String fileName) {
-        return fileName.substring(fileName.length() - (sdfString.length() + fileExtension.length()),
-                fileName.length() - fileExtension.length());
-    }
 
     //Checks if the directory is empty
     public boolean fileDirectoryIsEmpty() {
@@ -118,9 +114,6 @@ public class UploadService extends Service {
         return filesToUpload[index];
     }
 
-    public String getTodayTimestamp() {
-        return timeStamp;
-    }
 
     //Queues the files to be uploaded
     private boolean queueUploads() {

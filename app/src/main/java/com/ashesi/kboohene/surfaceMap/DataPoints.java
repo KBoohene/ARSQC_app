@@ -2,8 +2,6 @@ package com.ashesi.kboohene.surfaceMap;
 /**
  * @author delalivorgbe March 2014
  * modified by Kwabena Boohene January 2017
- *
- *
  * This class organizes data by axes for easy retrieval
  *
  */

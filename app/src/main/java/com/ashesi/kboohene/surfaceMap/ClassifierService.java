@@ -22,17 +22,14 @@ public class ClassifierService implements Runnable {
     private double class1,class2;
     private FeatureExtractor extractor;
 
+    //Constructor of the class
     public ClassifierService(String name){
         filename=name;
-
-    }
-    public ClassifierService(){
 
     }
 
     //Runs as soon as the thread starts
     public void run() {
-
         extractor = new FeatureExtractor(filename);
         runClassification();
     }
@@ -44,12 +41,6 @@ public class ClassifierService implements Runnable {
                             double z_D, double z_peak, double z_trough){
 
         double theta1, theta2, theta3, theta4, theta5, theta6;
-      /*  theta1 = 38.388669;
-        theta2= -1.658378;
-        theta3= 4.517424;
-        theta4 = -23.416034;
-        theta5 = 0.305482;
-        theta6 = -1.711021;*/
 
         theta1=0.100776;
         theta2=0.969801;
@@ -70,12 +61,6 @@ public class ClassifierService implements Runnable {
                             double z_D, double z_peak, double z_trough){
 
         double theta1, theta2, theta3, theta4, theta5, theta6;
-        /*theta1 = -0.641961;
-        theta2= -1.009224;
-        theta3= -3.973086;
-        theta4 = 17.536464;
-        theta5 = -0.565364;
-        theta6 = 0.681880;*/
 
         theta1=0.110556;
         theta2=1.062288;
@@ -94,10 +79,10 @@ public class ClassifierService implements Runnable {
     //Determines the grade of road
     public String grade(double classify1, double classify2){
         String grade=" ";
-        if((classify1<0.8)&&(classify2<0.8)){
+        if((classify1<0.5)&&(classify2>0.5)){
             grade="Good";
         }
-        else if((classify1>=0.8)&&(classify2>=0.8)){
+        else if((classify1>=0.5)&&(classify2<0.5)){
             grade="Bad";
         }
         else{
