@@ -42,12 +42,12 @@ public class ClassifierService implements Runnable {
 
         double theta1, theta2, theta3, theta4, theta5, theta6;
 
-        theta1=0.100776;
-        theta2=0.969801;
-        theta3=0.035839;
-        theta4=0.046582;
-        theta5=1.080070;
-        theta6=0.857358;
+        theta1=38.388669;
+        theta2=-1.658378;
+        theta3=4.517424;
+        theta4=-23.416034;
+        theta5=0.305482;
+        theta6=-1.711021;
 
         double result = (val1*theta1)+(z_mean*theta2)+(z_var*theta3)
                 +(z_D*theta4)+(z_peak*theta5)+(z_trough*theta6);
@@ -62,12 +62,12 @@ public class ClassifierService implements Runnable {
 
         double theta1, theta2, theta3, theta4, theta5, theta6;
 
-        theta1=0.110556;
-        theta2=1.062288;
-        theta3=0.030411;
-        theta4=0.051557;
-        theta5=1.186137;
-        theta6=0.935443;
+        theta1=-0.641961;
+        theta2=-1.009224;
+        theta3=-3.973086;
+        theta4=17.536464;
+        theta5=-0.565364;
+        theta6=0.681880;
 
         double result = (val1*theta1)+(z_mean*theta2)+(z_var*theta3)
                 +(z_D*theta4)+(z_peak*theta5)+(z_trough*theta6);
