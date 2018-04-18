@@ -7,4 +7,4 @@ Android Application used to collect road quality data.
 * [Dr. Ayorkor Korsah](https://www.linkedin.com/in/g-ayorkor-korsah-1b09183/?ppe=1)
 
 ## Supporting App
-* [SurfaceMap Server](https://github.com/KBoohene/SurfaceMap-Server)
+This app works in conjuction with [SurfaceMap Server](https://github.com/KBoohene/SurfaceMap-Server)
